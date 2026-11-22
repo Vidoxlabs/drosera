@@ -30,7 +30,7 @@ A face is a definition, not an admission. The registry entry a run admits — wi
 
 ## The skill
 
-A skill is packaged instructions: `{ name, summary, procedure, guardrails, verification, triggers, inputs, outputs, examples, sources, instructions?, tips?, lifecycle }`. The name is kebab-case; the summary says what following the skill accomplishes; the eight lists are text for whoever reads context. The lifecycle is draft, promoted, or deprecated, and deprecated is terminal. A skill pack collects them, unique by name.
+A skill is packaged instructions: `{ name, summary, procedure, guardrails, verification, triggers, inputs, outputs, examples, sources, instructions?, tips?, lifecycle }`. The name is kebab-case; the summary says what following the skill accomplishes; the eight lists are text for whoever reads context. The lifecycle runs intake, draft, review, promoted, and deprecated; a draft reaches promoted only through review, and deprecated is terminal. A skill pack collects them, unique by name.
 
 The rule with teeth: skills grow context, never authority. Loading a skill puts text into a reader's context. A skill's instructions have no power to admit effects or extend scopes — a run that wants an effect gets it admitted through the harness like any other effect.
 

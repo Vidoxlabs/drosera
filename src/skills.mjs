@@ -17,14 +17,20 @@ export class SkillError extends Error {
   }
 }
 
-// The lifecycle a skill record moves through. Deprecated is terminal.
-export const LIFECYCLE_STATES = Object.freeze(['draft', 'promoted', 'deprecated']);
+// The promotion path a skill record moves through, ported from the predecessor
+// skill lifecycle. A draft reaches promoted only through review. Deprecated is terminal.
+export const LIFECYCLE_STATES = Object.freeze(['intake', 'draft', 'review', 'promoted', 'deprecated']);
 
 const TRANSITIONS = Object.freeze({
-  draft: Object.freeze(['promoted', 'deprecated']),
+  intake: Object.freeze(['draft', 'deprecated']),
+  draft: Object.freeze(['review', 'deprecated']),
+  review: Object.freeze(['promoted', 'draft', 'deprecated']),
   promoted: Object.freeze(['deprecated']),
   deprecated: Object.freeze([]),
 });
+
+// States before promotion carry neither a promoter nor a deprecation reason.
+const UNPROMOTED = Object.freeze(['intake', 'draft', 'review']);
 
 // Lists every skill carries beyond its procedure, guardrails, and verification. Ported
 // from the predecessor skill validator's required sections; each is non-empty text.
@@ -40,6 +46,8 @@ const SECTION_MEANING = Object.freeze({
 
 const textList = (value) => Array.isArray(value) && value.length > 0
   && value.every((item) => typeof item === 'string' && item.length > 0);
+
+const article = (word) => (/^[aeiou]/.test(word) ? 'an' : 'a');
 
 const nonEmpty = (value) => typeof value === 'string' && value.length > 0;
 
@@ -79,8 +87,8 @@ function validate(input = {}) {
   } else {
     if (lifecycle === 'promoted' && !nonEmpty(promotedBy)) issues.push('a promoted skill names who promoted it (promotedBy)');
     if (lifecycle === 'deprecated' && !nonEmpty(deprecatedReason)) issues.push('a deprecated skill states why (deprecatedReason)');
-    if (lifecycle === 'draft' && (promotedBy !== undefined || deprecatedReason !== undefined)) {
-      issues.push('a draft skill carries neither promotedBy nor deprecatedReason');
+    if (UNPROMOTED.includes(lifecycle) && (promotedBy !== undefined || deprecatedReason !== undefined)) {
+      issues.push(`${article(lifecycle)} ${lifecycle} skill carries neither promotedBy nor deprecatedReason`);
     }
     if (lifecycle === 'promoted' && deprecatedReason !== undefined) issues.push('a promoted skill carries no deprecatedReason');
   }
@@ -108,16 +116,18 @@ export function skill(input) {
 
 /**
  * Move a skill record to another lifecycle state. Returns a new frozen record; the
- * given one is not changed. Draft may be promoted (naming `approver`) or deprecated
- * (stating `reason`); promoted may be deprecated (stating `reason`). Deprecated does
- * not transition, and a move to the same state is refused.
+ * given one is not changed. Intake → draft | deprecated; draft → review | deprecated;
+ * review → promoted (naming `approver`) | draft | deprecated; promoted → deprecated.
+ * Deprecation states its `reason`. A move to intake, draft, or review carries no
+ * promoter. Deprecated does not transition, and a move to the same state is refused.
  */
 export function transitionSkill(record, to, { approver, reason } = {}) {
   const current = skill(record);
   if (!TRANSITIONS[current.lifecycle].includes(to)) {
-    throw new SkillError(`a ${current.lifecycle} skill cannot move to ${JSON.stringify(to)}`);
+    throw new SkillError(`${article(current.lifecycle)} ${current.lifecycle} skill cannot move to ${JSON.stringify(to)}`);
   }
   const { promotedBy, deprecatedReason, lifecycle, ...rest } = current;
+  if (UNPROMOTED.includes(to)) return skill({ ...rest, lifecycle: to });
   if (to === 'promoted') {
     if (!nonEmpty(approver)) throw new SkillError('promotion names its approver');
     return skill({ ...rest, lifecycle: 'promoted', promotedBy: approver });

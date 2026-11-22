@@ -61,22 +61,24 @@ test('a pack refuses a frozen record that is missing a required part', () => {
   assert.equal(skillPack([skill(base())]).has('pre-flight-review'), true);
 });
 
-test('the lifecycle is draft, promoted, or deprecated', () => {
-  assert.deepEqual([...LIFECYCLE_STATES], ['draft', 'promoted', 'deprecated']);
-  assert.throws(() => skill({ ...base(), lifecycle: 'review' }), SkillError);
+test('the lifecycle is intake, draft, review, promoted, or deprecated', () => {
+  assert.deepEqual([...LIFECYCLE_STATES], ['intake', 'draft', 'review', 'promoted', 'deprecated']);
+  assert.throws(() => skill({ ...base(), lifecycle: 'pending' }), SkillError);
   assert.throws(() => skill({ ...base(), lifecycle: 'promoted' }), SkillError);      // names no approver
   assert.throws(() => skill({ ...base(), lifecycle: 'deprecated' }), SkillError);    // states no reason
   assert.throws(() => skill({ ...base(), promotedBy: 'ada' }), SkillError);          // a draft is not promoted
   assert.equal(skill({ ...base(), lifecycle: 'promoted', promotedBy: 'ada' }).promotedBy, 'ada');
 });
 
-test('a draft is promoted with an approver, and a promoted skill is deprecated with a reason', () => {
+test('a reviewed draft is promoted with an approver, and a promoted skill is deprecated with a reason', () => {
   const draft = skill(base());
-  const promoted = transitionSkill(draft, 'promoted', { approver: 'ada' });
+  assert.throws(() => transitionSkill(draft, 'promoted', { approver: 'ada' }), /cannot move/); // 2.0.0: review comes first
+  const reviewed = transitionSkill(draft, 'review');
+  const promoted = transitionSkill(reviewed, 'promoted', { approver: 'ada' });
   assert.equal(promoted.lifecycle, 'promoted');
   assert.equal(promoted.promotedBy, 'ada');
   assert.equal(draft.lifecycle, 'draft');                                 // the given record is unchanged
-  assert.throws(() => transitionSkill(draft, 'promoted'), SkillError);
+  assert.throws(() => transitionSkill(reviewed, 'promoted'), SkillError);
 
   const deprecated = transitionSkill(promoted, 'deprecated', { reason: 'Replaced by the scoped review skill.' });
   assert.equal(deprecated.lifecycle, 'deprecated');
@@ -88,13 +90,14 @@ test('a draft is promoted with an approver, and a promoted skill is deprecated w
 
 test('a deprecated skill does not transition, and no state moves to itself or back', () => {
   const deprecated = transitionSkill(skill(base()), 'deprecated', { reason: 'Never adopted.' });
-  for (const to of ['draft', 'promoted', 'deprecated']) {
+  for (const to of LIFECYCLE_STATES) {
     assert.throws(() => transitionSkill(deprecated, to, { approver: 'ada', reason: 'again' }), /cannot move/);
   }
-  const promoted = transitionSkill(skill(base()), 'promoted', { approver: 'ada' });
-  assert.throws(() => transitionSkill(promoted, 'draft'), /cannot move/);
-  assert.throws(() => transitionSkill(promoted, 'promoted', { approver: 'ada' }), /cannot move/);
-  assert.throws(() => transitionSkill(skill(base()), 'review'), /cannot move/);
+  const promoted = transitionSkill(transitionSkill(skill(base()), 'review'), 'promoted', { approver: 'ada' });
+  for (const to of ['intake', 'draft', 'review', 'promoted']) {
+    assert.throws(() => transitionSkill(promoted, to, { approver: 'ada' }), /cannot move/);
+  }
+  assert.throws(() => transitionSkill(skill(base()), 'draft'), /cannot move/);
 });
 
 
@@ -128,7 +131,7 @@ test('the 0.5.0 shape, without the new section lists, is refused', () => {
 test('instructions and tips stay optional, and transitions keep the section lists', () => {
   const record = skill({ ...base(), instructions: 'Read, confirm, call.', tips: ['A read face needs no review.'] });
   assert.equal(record.instructions, 'Read, confirm, call.');
-  const promoted = transitionSkill(skill(base()), 'promoted', { approver: 'ada' });
+  const promoted = transitionSkill(transitionSkill(skill(base()), 'review'), 'promoted', { approver: 'ada' });
   const deprecated = transitionSkill(promoted, 'deprecated', { reason: 'Replaced.' });
   for (const field of SECTION_LISTS) assert.deepEqual(deprecated[field], sections()[field]);
 });

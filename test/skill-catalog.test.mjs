@@ -11,7 +11,7 @@ const draft = name => skill({
   outputs: ['Claims with citations.'], examples: ['Cite the source id beside the claim.'],
   sources: ['docs/contracts/skills.md'],
 });
-const promote = record => transitionSkill(record, 'promoted', { approver: 'reviewer' });
+const promote = record => transitionSkill(transitionSkill(record, 'review'), 'promoted', { approver: 'reviewer' });
 
 test('a skill catalog lists and reads only promoted skills with an explicit MIT license', () => {
   const entry = { skill: promote(draft('review-sources')), license: 'MIT' };

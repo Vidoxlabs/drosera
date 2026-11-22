@@ -20,7 +20,7 @@ examples      non-empty list of non-empty worked examples
 sources       non-empty list of non-empty references to the evidence the skill rests on
 instructions  optional non-empty text; prose around the procedure, never a substitute for it
 tips          optional list of non-empty strings; small, load-bearing reminders
-lifecycle     draft (the default), promoted, or deprecated
+lifecycle     intake, draft (the default), review, promoted, or deprecated
 promotedBy    required on a promoted skill; who approved it
 deprecatedReason  required on a deprecated skill; why it was retired
 ```
@@ -44,21 +44,33 @@ its field.
 
 ## Lifecycle
 
-`implemented` in `src/skills.mjs`. `LIFECYCLE_STATES` is `draft`, `promoted`,
-`deprecated`. `transitionSkill(record, to, { approver?, reason? })` returns a new frozen
-record and leaves the given one unchanged:
+`implemented` in `src/skills.mjs`. `LIFECYCLE_STATES` is `intake`, `draft`, `review`,
+`promoted`, `deprecated`: the promotion path of the predecessor skill lifecycle, in
+lowercase. Only the states and their moves are ported. Drosera reads no file, keeps
+no clock or timestamp, and runs no quality gate on a move.
+`transitionSkill(record, to, { approver?, reason? })` returns a new frozen record and
+leaves the given one unchanged:
 
 | From | To | Needs |
 | --- | --- | --- |
-| `draft` | `promoted` | `approver`, kept as `promotedBy` |
-| `draft` | `deprecated` | `reason`, kept as `deprecatedReason` |
+| `intake` | `draft` | nothing |
+| `intake` | `deprecated` | `reason`, kept as `deprecatedReason` |
+| `draft` | `review` | nothing |
+| `draft` | `deprecated` | `reason` |
+| `review` | `promoted` | `approver`, kept as `promotedBy` |
+| `review` | `draft` | nothing; the record carries no promoter |
+| `review` | `deprecated` | `reason` |
 | `promoted` | `deprecated` | `reason`; `promotedBy` is kept |
 | `deprecated` | none | deprecated is terminal |
 
-Every other move, including a move to the same state and a move back to `draft`, is
-refused. A record built directly as `promoted` or `deprecated` must carry the same
-field the transition would have added. A lifecycle state is a review label. It grants
-nothing (rule 2).
+Every other move is refused, including `draft` → `promoted`, a move to the same state,
+and any move out of `promoted` except deprecation. A skill reaches `promoted` only
+through `review`. An `intake`, `draft`, or `review` record carries neither `promotedBy`
+nor `deprecatedReason`, so a move back to `draft` clears the promoter. A record built
+directly in a state must carry the same field the transition would have added. The
+record keeps no history, so a record built directly as `promoted` is checked for its
+`promotedBy` and not for the path it took. A lifecycle state is a review label. It
+grants nothing (rule 2).
 
 ## The pack
 
@@ -94,6 +106,15 @@ Build a fresh snapshot when a skill's lifecycle or license changes.
 - Not a tool. A skill has no effect class, makes no calls, and is never dispatched.
 
 ## Changes
+
+- `2.0.0` — breaking. The lifecycle gains `intake` and `review`, and a draft reaches
+  `promoted` only through `review`. `transitionSkill(draft, 'promoted', …)`, valid
+  under `1.0.0`, is refused now; move the draft to `review` first, then promote it
+  with its approver. `review` may also return to `draft`, which carries no promoter.
+  `LIFECYCLE_STATES` lists five states, so a caller comparing it to the three-state
+  list sees a change. The default lifecycle stays `draft`, the five section lists
+  stay required, and the catalog still lists only a promoted skill whose own license
+  is `MIT`.
 
 - `1.0.0` — breaking. A skill also requires `triggers`, `inputs`, `outputs`,
   `examples`, and `sources`, each a non-empty list of non-empty text. A skill valid

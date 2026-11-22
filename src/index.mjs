@@ -15,7 +15,7 @@ export {
 export { EVENTS, HookError, hook, hookPack, runHooks } from './hooks.mjs';
 export { RecipeError, recipe, cookbook, checkRecipe } from './cookbook.mjs';
 
-export const VERSION = '1.0.0';
+export const VERSION = '2.0.0';
 
 export function about() {
   const lines = [
@@ -26,7 +26,8 @@ export function about() {
     '  pack      tool faces under seed\'s neutral tool-id grammar',
     '  skills    procedure, guardrails, verification, triggers, inputs, outputs,',
     '            examples, sources: context, never authority;',
-    '            lifecycle draft, promoted, deprecated (terminal); public skill catalog',
+    '            lifecycle intake, draft, review, promoted, deprecated (terminal);',
+    '            promotion only from review; public skill catalog',
     '  hooks     deterministic checks, fail closed, bound to run events',
     '  cookbook  recipes whose references resolve at validation',
     '',
