@@ -9,11 +9,11 @@ export {
   toolFace,
   toolPack,
 } from './pack.mjs';
-export { SkillError, skill, skillPack } from './skills.mjs';
+export { SkillError, VENDOR_NAMES, skill, skillPack } from './skills.mjs';
 export { EVENTS, HookError, hook, hookPack, runHooks } from './hooks.mjs';
 export { RecipeError, recipe, cookbook, checkRecipe } from './cookbook.mjs';
 
-export const VERSION = '0.2.0';
+export const VERSION = '0.3.0';
 
 export function about() {
   const lines = [

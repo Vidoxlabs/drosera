@@ -2,6 +2,13 @@
 
 const NAME = /^[a-z][a-z0-9-]*$/;
 
+// Vendor and product names never name a skill. This is the vendor half of the
+// forbidden segments in seed's tool-id grammar (mirrored in pack.mjs); the
+// protocol half stays allowed, because a skill about a protocol is a method.
+export const VENDOR_NAMES = Object.freeze(new Set([
+  'openai', 'anthropic', 'claude', 'chatgpt', 'gemini', 'grok', 'copilot', 'cursor',
+]));
+
 export class SkillError extends Error {
   constructor(issues) {
     super(Array.isArray(issues) ? `invalid skill: ${issues.join('; ')}` : issues);
@@ -14,6 +21,11 @@ function validate({ name, summary, instructions, tips } = {}) {
   const issues = [];
   if (typeof name !== 'string' || !NAME.test(name)) {
     issues.push('name must be kebab-case: lowercase letters, digits, or hyphens, starting with a letter');
+  } else {
+    const vendor = name.split('-').find((word) => VENDOR_NAMES.has(word));
+    if (vendor !== undefined) {
+      issues.push(`name word "${vendor}" is a vendor or product name; a skill name names the working method`);
+    }
   }
   if (typeof summary !== 'string' || summary.length === 0) {
     issues.push('summary must be a non-empty statement of what the skill accomplishes');
