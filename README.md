@@ -10,7 +10,7 @@ Drosera is the sundew. A sundew works by extension: sticky tentacles that reach 
 
 ## Status
 
-Version 0.3.0. Contracts and modules only; nothing shipped runtime-wise. The pack formats, validation rules, and reference-resolution check are `implemented` as a tested reference library. A live registry, connector bindings, and any server shape are `specified` or `planned`, not built.
+Version 0.4.0. Contracts and modules only; nothing shipped runtime-wise. The pack formats, validation rules, and reference-resolution check are `implemented` as a tested reference library. A live registry, connector bindings, and any server shape are `specified` or `planned`, not built.
 
 ## Install
 
@@ -25,7 +25,7 @@ Requires Node >= 22.13. Zero runtime dependencies.
 | Module | What it holds | Label |
 | :--- | :--- | :--- |
 | `pack.mjs` | Tool faces under seed's neutral tool-id grammar, and the tool pack that collects them with unique IDs and domain listings. | `implemented` |
-| `skills.mjs` | Skill records: named instructions with summaries, names that refuse vendor and product words, and the skill pack. | `implemented` |
+| `skills.mjs` | Skill records: summary, procedure, guardrails, and verification; names that refuse vendor and product words; the draft, promoted, deprecated lifecycle; and the skill pack. | `implemented` |
 | `hooks.mjs` | Hook records: deterministic checks bound to run events, and the fail-closed hook pack. | `implemented` |
 | `cookbook.mjs` | Recipes composing faces and skills, with validation that every reference resolves. | `implemented` |
 

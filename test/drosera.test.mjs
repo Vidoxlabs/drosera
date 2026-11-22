@@ -77,7 +77,7 @@ test('a skill packages instructions and freezes', () => {
   const packaged = skill({
     name: 'pre-flight-review',
     summary: 'Walk the checklist before any destructive call.',
-    instructions: 'Read the effect class on the face. Confirm the scope. Then call.',
+    instructions: 'Read the effect class on the face. Confirm the scope. Then call.', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'],
     tips: ['Slow is smooth.'],
   });
   assert.equal(packaged.name, 'pre-flight-review');
@@ -85,15 +85,15 @@ test('a skill packages instructions and freezes', () => {
 });
 
 test('skill names are kebab-case and other shapes reject', () => {
-  assert.throws(() => skill({ name: 'PreFlight', summary: 's', instructions: 'i' }), SkillError);
-  assert.throws(() => skill({ name: 'preflight', summary: '', instructions: '' }), SkillError);
-  assert.throws(() => skill({ name: 'preflight', summary: 's', instructions: '', tips: '' }), SkillError);
-  assert.throws(() => skill({ name: 'preflight', summary: 's', instructions: 'i', tips: [''] }), SkillError);
+  assert.throws(() => skill({ name: 'PreFlight', summary: 's', instructions: 'i', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'] }), SkillError);
+  assert.throws(() => skill({ name: 'preflight', summary: '', instructions: '', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'] }), SkillError);
+  assert.throws(() => skill({ name: 'preflight', summary: 's', instructions: '', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'], tips: '' }), SkillError);
+  assert.throws(() => skill({ name: 'preflight', summary: 's', instructions: 'i', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'], tips: [''] }), SkillError);
 });
 
 test('a skill pack dedupes by name', () => {
-  const a = skill({ name: 'same', summary: 'first', instructions: 'i' });
-  const b = skill({ name: 'same', summary: 'second', instructions: 'i' });
+  const a = skill({ name: 'same', summary: 'first', instructions: 'i', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'] });
+  const b = skill({ name: 'same', summary: 'second', instructions: 'i', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'] });
   assert.throws(() => skillPack([a, b]), /duplicate skill name/);
 });
 
@@ -197,7 +197,7 @@ test('checkRecipe resolves references: dangling tool or skill is a check-time de
     toolFace({ id: 'memory.note.delete', effect: 'destructive', connector: 'memory-binding', summary: 'Forget a note.' }),
   ]);
   const skills = skillPack([
-    skill({ name: 'pre-flight-review', summary: 'Check before destructive calls.', instructions: 'Read the effect class.' }),
+    skill({ name: 'pre-flight-review', summary: 'Check before destructive calls.', instructions: 'Read the effect class.', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'] }),
   ]);
   const good = recipe({
     id: 'retire-a-note',
@@ -249,7 +249,7 @@ test('end to end: a family memory pack validates face, skill, hook, and recipe t
     toolFace({ id: 'memory.note.delete', effect: 'destructive', connector: 'memory-binding', summary: 'Forget a note.' }),
   ]);
   const skills = skillPack([
-    skill({ name: 'pre-flight-review', summary: 'Check before destructive calls.', instructions: 'Read the effect class. Confirm the scope.' }),
+    skill({ name: 'pre-flight-review', summary: 'Check before destructive calls.', instructions: 'Read the effect class. Confirm the scope.', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'] }),
   ]);
   const hooks = hookPack([
     hook({

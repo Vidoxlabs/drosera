@@ -5,11 +5,18 @@ Label: `specified` (shape), `implemented` (validation and pack in `src/skills.mj
 ## Shape
 
 ```
-skill { name, summary, instructions, tips? }
+skill { name, summary, procedure, guardrails, verification, instructions?, tips?,
+        lifecycle, promotedBy?, deprecatedReason? }
 name          kebab-case: [a-z][a-z0-9-]*  — one word or hyphenated words
 summary       non-empty; what following the skill accomplishes
-instructions  non-empty text; the packaged guidance itself
+procedure     non-empty list of non-empty steps, in order
+guardrails    non-empty list of non-empty limits the reader keeps to
+verification  non-empty list of non-empty checks that show the skill worked
+instructions  optional non-empty text; prose around the procedure, never a substitute for it
 tips          optional list of non-empty strings; small, load-bearing reminders
+lifecycle     draft (the default), promoted, or deprecated
+promotedBy    required on a promoted skill; who approved it
+deprecatedReason  required on a deprecated skill; why it was retired
 ```
 
 ## Skill rules
@@ -21,6 +28,24 @@ tips          optional list of non-empty strings; small, load-bearing reminders
 
    `implemented` for vendors and products in `src/skills.mjs`: a name any of whose hyphen-separated words is in `VENDOR_NAMES` (`openai`, `anthropic`, `claude`, `chatgpt`, `gemini`, `grok`, `copilot`, `cursor`) is refused. The list is the vendor half of the forbidden segments in seed's tool-id grammar. Whole words are matched, not substrings. Protocol words such as `http` stay allowed, because a skill about a protocol names a method. Authors and personas are not checked by code; they remain a review rule.
 5. **Tips are for edge cases, not for content that belongs in instructions.** A tip is a parenthetical the reader may skip without misunderstanding the method.
+
+## Lifecycle
+
+`implemented` in `src/skills.mjs`. `LIFECYCLE_STATES` is `draft`, `promoted`,
+`deprecated`. `transitionSkill(record, to, { approver?, reason? })` returns a new frozen
+record and leaves the given one unchanged:
+
+| From | To | Needs |
+| --- | --- | --- |
+| `draft` | `promoted` | `approver`, kept as `promotedBy` |
+| `draft` | `deprecated` | `reason`, kept as `deprecatedReason` |
+| `promoted` | `deprecated` | `reason`; `promotedBy` is kept |
+| `deprecated` | none | deprecated is terminal |
+
+Every other move, including a move to the same state and a move back to `draft`, is
+refused. A record built directly as `promoted` or `deprecated` must carry the same
+field the transition would have added. A lifecycle state is a review label. It grants
+nothing (rule 2).
 
 ## The pack
 
@@ -40,6 +65,12 @@ skillPack(skills) → { skill(name), names(), has(name), size }
 - Not a tool. A skill has no effect class, makes no calls, and is never dispatched.
 
 ## Changes
+
+- `0.4.0` — breaking. A skill requires `procedure`, `guardrails`, and `verification`
+  lists in addition to `summary`; `instructions` becomes optional prose. Skills carry a
+  `lifecycle`, and `transitionSkill` moves them draft → promoted → deprecated, with
+  deprecated terminal. A skill built with only `summary` and `instructions` is refused
+  now; give it the three lists. Released as a minor bump because drosera is pre-1.0.
 
 - `0.3.0` — skill names refuse vendor and product words (rule 4). A skill whose name carried one was accepted before and is refused now; rename it after the method it packages.
 - `0.2.0` — `skillPack` checks every entry with the skill rules. Before `0.2.0` a frozen object with a string name entered the pack unchecked, so a skill with no instructions could be packed. The change refuses entries that never met this contract; every valid entry packs as before.

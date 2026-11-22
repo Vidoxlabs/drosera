@@ -31,8 +31,8 @@ test('a frozen object that is not a valid face is refused by the pack', () => {
 });
 
 test('a frozen object that is not a valid skill is refused by the pack', () => {
-  const noInstructions = Object.freeze({ name: 'pre-flight', summary: 's', instructions: '' });
-  const badName = Object.freeze({ name: 'PreFlight', summary: 's', instructions: 'i' });
+  const noInstructions = Object.freeze({ name: 'pre-flight', summary: 's', instructions: '', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'] });
+  const badName = Object.freeze({ name: 'PreFlight', summary: 's', instructions: 'i', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'] });
   for (const bad of [noInstructions, badName]) {
     assert.throws(() => skillPack([bad]), SkillError);
   }
@@ -60,7 +60,7 @@ test('valid entries still pack, and a hook keeps the very check it was given', (
 
   const face = toolFace({ id: 'memory.note.read', effect: 'read', connector: 'memory-binding', summary: 'Read one note.' });
   assert.equal(toolPack([face]).face('memory.note.read').summary, 'Read one note.');
-  assert.equal(skillPack([skill({ name: 'pre-flight', summary: 's', instructions: 'i' })]).has('pre-flight'), true);
+  assert.equal(skillPack([skill({ name: 'pre-flight', summary: 's', instructions: 'i', procedure: ['Read the face.'], guardrails: ['No unadmitted effect.'], verification: ['The scope matches.'] })]).has('pre-flight'), true);
   assert.equal(cookbook([recipe({ id: 'one', objective: 'o', steps: [{ tool: 'memory.note.read' }] })]).size, 1);
 });
 

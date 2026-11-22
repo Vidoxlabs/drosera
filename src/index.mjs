@@ -9,11 +9,13 @@ export {
   toolFace,
   toolPack,
 } from './pack.mjs';
-export { SkillError, VENDOR_NAMES, skill, skillPack } from './skills.mjs';
+export {
+  SkillError, VENDOR_NAMES, LIFECYCLE_STATES, skill, skillPack, transitionSkill,
+} from './skills.mjs';
 export { EVENTS, HookError, hook, hookPack, runHooks } from './hooks.mjs';
 export { RecipeError, recipe, cookbook, checkRecipe } from './cookbook.mjs';
 
-export const VERSION = '0.3.0';
+export const VERSION = '0.4.0';
 
 export function about() {
   const lines = [
@@ -22,7 +24,8 @@ export function about() {
     '',
     'modules:',
     '  pack      tool faces under seed\'s neutral tool-id grammar',
-    '  skills    packaged instructions: context, never authority',
+    '  skills    procedure, guardrails, and verification: context, never authority;',
+    '            lifecycle draft, promoted, deprecated (terminal)',
     '  hooks     deterministic checks, fail closed, bound to run events',
     '  cookbook  recipes whose references resolve at validation',
     '',
