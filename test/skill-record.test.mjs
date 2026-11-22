@@ -1,12 +1,22 @@
-// Skill records: procedure, guardrails, verification, and the lifecycle.
+// Skill records: the required lists and the lifecycle.
 // Contract: docs/contracts/skills.md
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  skill, skillPack, transitionSkill, SkillError, LIFECYCLE_STATES,
+  skill, skillPack, transitionSkill, SkillError, LIFECYCLE_STATES, SECTION_LISTS,
 } from '../src/index.mjs';
+
+// Sections ported from the predecessor skill validator's required list:
+// triggers, inputs, outputs, examples, and sources join the existing four.
+const sections = () => ({
+  triggers: ['Before any call whose face declares a destructive effect.'],
+  inputs: ['The face, its effect class, and the admitted scope.'],
+  outputs: ['A confirmed scope recorded with the intent.'],
+  examples: ['Good: confirm the scope, then delete one file. Bad: delete without reading the face.'],
+  sources: ['docs/contracts/skills.md'],
+});
 
 const base = () => ({
   name: 'pre-flight-review',
@@ -14,6 +24,7 @@ const base = () => ({
   procedure: ['Read the effect class on the face.', 'Confirm the scope.', 'Then call.'],
   guardrails: ['Never call a destructive face without an admitted scope.'],
   verification: ['The recorded intent names the scope that was confirmed.'],
+  ...sections(),
 });
 
 test('a skill record carries procedure, guardrails, and verification, and starts as a draft', () => {
@@ -84,4 +95,40 @@ test('a deprecated skill does not transition, and no state moves to itself or ba
   assert.throws(() => transitionSkill(promoted, 'draft'), /cannot move/);
   assert.throws(() => transitionSkill(promoted, 'promoted', { approver: 'ada' }), /cannot move/);
   assert.throws(() => transitionSkill(skill(base()), 'review'), /cannot move/);
+});
+
+
+test('a skill record carries triggers, inputs, outputs, examples, and sources as frozen lists', () => {
+  const record = skill(base());
+  for (const field of SECTION_LISTS) {
+    assert.deepEqual(record[field], sections()[field]);
+    assert.throws(() => { record[field].push('more'); }, TypeError);
+  }
+  assert.equal(Object.hasOwn(record, 'instructions'), false);
+  assert.equal(Object.hasOwn(record, 'tips'), false);
+});
+
+test('a missing or empty section list is invalid, and each is named', () => {
+  for (const field of SECTION_LISTS) {
+    const input = base();
+    delete input[field];
+    assert.throws(() => skill(input), (error) => error instanceof SkillError && error.issues.some((i) => i.startsWith(field)));
+    for (const bad of [[], [''], 'one item', [3], null]) {
+      assert.throws(() => skill({ ...base(), [field]: bad }), (error) => error instanceof SkillError && error.issues.some((i) => i.startsWith(field)));
+    }
+  }
+});
+
+test('the 0.5.0 shape, without the new section lists, is refused', () => {
+  const legacy = Object.fromEntries(Object.entries(base()).filter(([field]) => !SECTION_LISTS.includes(field)));
+  const issues = (() => { try { skill(legacy); } catch (error) { return error.issues; } return []; })();
+  assert.deepEqual(issues.map((i) => i.split(' ')[0]), SECTION_LISTS);
+});
+
+test('instructions and tips stay optional, and transitions keep the section lists', () => {
+  const record = skill({ ...base(), instructions: 'Read, confirm, call.', tips: ['A read face needs no review.'] });
+  assert.equal(record.instructions, 'Read, confirm, call.');
+  const promoted = transitionSkill(skill(base()), 'promoted', { approver: 'ada' });
+  const deprecated = transitionSkill(promoted, 'deprecated', { reason: 'Replaced.' });
+  for (const field of SECTION_LISTS) assert.deepEqual(deprecated[field], sections()[field]);
 });

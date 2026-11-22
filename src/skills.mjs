@@ -26,6 +26,18 @@ const TRANSITIONS = Object.freeze({
   deprecated: Object.freeze([]),
 });
 
+// Lists every skill carries beyond its procedure, guardrails, and verification. Ported
+// from the predecessor skill validator's required sections; each is non-empty text.
+export const SECTION_LISTS = Object.freeze(['triggers', 'inputs', 'outputs', 'examples', 'sources']);
+
+const SECTION_MEANING = Object.freeze({
+  triggers: 'situations that call for the skill',
+  inputs: 'what the reader needs before starting',
+  outputs: 'what following the skill produces',
+  examples: 'worked examples',
+  sources: 'evidence the skill rests on',
+});
+
 const textList = (value) => Array.isArray(value) && value.length > 0
   && value.every((item) => typeof item === 'string' && item.length > 0);
 
@@ -54,6 +66,9 @@ function validate(input = {}) {
   if (!textList(procedure)) issues.push('procedure must be a non-empty list of steps, each non-empty text');
   if (!textList(guardrails)) issues.push('guardrails must be a non-empty list of limits, each non-empty text');
   if (!textList(verification)) issues.push('verification must be a non-empty list of checks, each non-empty text');
+  for (const field of SECTION_LISTS) {
+    if (!textList(input?.[field])) issues.push(`${field} must be a non-empty list of ${SECTION_MEANING[field]}, each non-empty text`);
+  }
   if (tips !== undefined) {
     if (!Array.isArray(tips) || tips.some((t) => typeof t !== 'string' || t.length === 0)) {
       issues.push('tips must be a list of non-empty strings when present');
@@ -83,6 +98,7 @@ export function skill(input) {
     procedure: Object.freeze([...input.procedure]),
     guardrails: Object.freeze([...input.guardrails]),
     verification: Object.freeze([...input.verification]),
+    ...Object.fromEntries(SECTION_LISTS.map((field) => [field, Object.freeze([...input[field]])])),
     ...(input.tips === undefined ? {} : { tips: Object.freeze([...input.tips]) }),
     lifecycle,
     ...(input.promotedBy === undefined ? {} : { promotedBy: input.promotedBy }),

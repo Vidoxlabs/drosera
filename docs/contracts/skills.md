@@ -5,19 +5,32 @@ Label: `specified` (shape), `implemented` (validation and pack in `src/skills.mj
 ## Shape
 
 ```
-skill { name, summary, procedure, guardrails, verification, instructions?, tips?,
+skill { name, summary, procedure, guardrails, verification,
+        triggers, inputs, outputs, examples, sources, instructions?, tips?,
         lifecycle, promotedBy?, deprecatedReason? }
 name          kebab-case: [a-z][a-z0-9-]*  — one word or hyphenated words
 summary       non-empty; what following the skill accomplishes
 procedure     non-empty list of non-empty steps, in order
 guardrails    non-empty list of non-empty limits the reader keeps to
 verification  non-empty list of non-empty checks that show the skill worked
+triggers      non-empty list of non-empty situations that call for the skill
+inputs        non-empty list of non-empty things the reader needs before starting
+outputs       non-empty list of non-empty things following the skill produces
+examples      non-empty list of non-empty worked examples
+sources       non-empty list of non-empty references to the evidence the skill rests on
 instructions  optional non-empty text; prose around the procedure, never a substitute for it
 tips          optional list of non-empty strings; small, load-bearing reminders
 lifecycle     draft (the default), promoted, or deprecated
 promotedBy    required on a promoted skill; who approved it
 deprecatedReason  required on a deprecated skill; why it was retired
 ```
+
+`SECTION_LISTS` exports the five lists added in `1.0.0`, in the order above. Together
+with `summary`, `procedure`, `guardrails`, and `verification`, they are the record form
+of the nine sections the predecessor skill validator required in a skill document. This
+repository checks the record. It does not parse a document. A missing list, an empty
+list, or a list holding anything but non-empty text is refused, and each refusal names
+its field.
 
 ## Skill rules
 
@@ -64,6 +77,8 @@ skillPack(skills) → { skill(name), names(), has(name), size }
 It applies the existing skill validator to each entry and uses the skill's name as
 its slug. Duplicate slugs are refused. The license is catalog metadata.
 
+- An entry whose skill fails validation, including a missing section list, refuses the
+  whole catalog. It is never listed.
 - `list()` returns frozen `{ slug, license, skill }` items in input order. A skill
   is listed only if its lifecycle is `promoted` and the entry explicitly gives it
   the `MIT` license.
@@ -79,6 +94,14 @@ Build a fresh snapshot when a skill's lifecycle or license changes.
 - Not a tool. A skill has no effect class, makes no calls, and is never dispatched.
 
 ## Changes
+
+- `1.0.0` — breaking. A skill also requires `triggers`, `inputs`, `outputs`,
+  `examples`, and `sources`, each a non-empty list of non-empty text. A skill valid
+  under `0.5.0` that omits any of them is refused now by `skill`, `skillPack`,
+  `transitionSkill`, and `skillCatalog`. Migrate a record by giving it the five lists
+  from the skill's own document. `SECTION_LISTS` is a new export. `instructions` and
+  `tips` stay optional. The lifecycle, its terminal deprecated state, and the catalog
+  rule (promoted, own license `MIT`) are unchanged.
 
 - `0.5.0` — additive `skillCatalog` export for listing and reading promoted MIT skills.
 

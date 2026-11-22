@@ -7,6 +7,9 @@ const draft = name => skill({
   name, summary: 'Review the source list.',
   procedure: ['Read the source list.'], guardrails: ['Keep evidence scoped to the task.'],
   verification: ['Every claim cites an admitted source.'],
+  triggers: ['A claim needs evidence.'], inputs: ['The admitted sources.'],
+  outputs: ['Claims with citations.'], examples: ['Cite the source id beside the claim.'],
+  sources: ['docs/contracts/skills.md'],
 });
 const promote = record => transitionSkill(record, 'promoted', { approver: 'reviewer' });
 
@@ -38,4 +41,12 @@ test('a skill catalog applies skill validation and refuses ambiguous slugs', () 
   assert.throws(() => skillCatalog([
     { skill: valid, license: 'MIT' }, { skill: draft(valid.name), license: 'MIT' },
   ]), /duplicate skill name/);
+});
+
+test('a promoted MIT skill missing a section list never enters the catalog', () => {
+  const valid = promote(draft('check-sources'));
+  for (const field of ['triggers', 'inputs', 'outputs', 'examples', 'sources']) {
+    const invalid = Object.freeze({ ...valid, [field]: [] });
+    assert.throws(() => skillCatalog([{ skill: invalid, license: 'MIT' }]), SkillError);
+  }
 });
