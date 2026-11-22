@@ -41,6 +41,7 @@ Drosera is one of six named projects that share one design law — ordinary bota
 | [`aestivation`](https://github.com/Vidoxlabs/aestivation) | Plan proposal, deterministic validation, review verdicts, and the assembly gate. |
 | `drosera` (this repo) | The tooling fabric: faces, skills, hooks, cookbooks. |
 | [`bloom`](https://github.com/Vidoxlabs/bloom) | The agent harness the family serves: the team workspace where agents run. |
+| [`trellis`](https://github.com/Vidoxlabs/trellis) | The testing lattice: multi-point probes over the family. |
 
 ## Documentation
 
