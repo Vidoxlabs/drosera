@@ -58,6 +58,20 @@ skillPack(skills) → { skill(name), names(), has(name), size }
 - **Frozen.** Skills and packs freeze on build.
 - **A pack is a collection.** Discovery, storage, and loading are service concerns, `specified` nowhere here beyond the shapes.
 
+## Public catalog
+
+`skillCatalog(entries)` builds an in-memory snapshot from `{ skill, license }` entries.
+It applies the existing skill validator to each entry and uses the skill's name as
+its slug. Duplicate slugs are refused. The license is catalog metadata.
+
+- `list()` returns frozen `{ slug, license, skill }` items in input order. A skill
+  is listed only if its lifecycle is `promoted` and the entry explicitly gives it
+  the `MIT` license.
+- `read(slug)` returns the corresponding public item. Missing and non-public slugs
+  both throw `SkillError`.
+
+Build a fresh snapshot when a skill's lifecycle or license changes.
+
 ## What a skill never is
 
 - Not code. A skill executes nothing; a reader reads it.
@@ -65,6 +79,8 @@ skillPack(skills) → { skill(name), names(), has(name), size }
 - Not a tool. A skill has no effect class, makes no calls, and is never dispatched.
 
 ## Changes
+
+- `0.5.0` — additive `skillCatalog` export for listing and reading promoted MIT skills.
 
 - `0.4.0` — breaking. A skill requires `procedure`, `guardrails`, and `verification`
   lists in addition to `summary`; `instructions` becomes optional prose. Skills carry a

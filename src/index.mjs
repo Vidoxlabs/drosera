@@ -10,12 +10,12 @@ export {
   toolPack,
 } from './pack.mjs';
 export {
-  SkillError, VENDOR_NAMES, LIFECYCLE_STATES, skill, skillPack, transitionSkill,
+  SkillError, VENDOR_NAMES, LIFECYCLE_STATES, skill, skillPack, transitionSkill, skillCatalog,
 } from './skills.mjs';
 export { EVENTS, HookError, hook, hookPack, runHooks } from './hooks.mjs';
 export { RecipeError, recipe, cookbook, checkRecipe } from './cookbook.mjs';
 
-export const VERSION = '0.4.0';
+export const VERSION = '0.5.0';
 
 export function about() {
   const lines = [
@@ -25,7 +25,7 @@ export function about() {
     'modules:',
     '  pack      tool faces under seed\'s neutral tool-id grammar',
     '  skills    procedure, guardrails, and verification: context, never authority;',
-    '            lifecycle draft, promoted, deprecated (terminal)',
+    '            lifecycle draft, promoted, deprecated (terminal); public skill catalog',
     '  hooks     deterministic checks, fail closed, bound to run events',
     '  cookbook  recipes whose references resolve at validation',
     '',

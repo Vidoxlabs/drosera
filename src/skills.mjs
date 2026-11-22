@@ -137,3 +137,27 @@ export function skillPack(skills = []) {
     get size() { return byName.size; },
   });
 }
+
+/** Build a read-only catalog snapshot from validated skills and their licenses. */
+export function skillCatalog(entries = []) {
+  if (!Array.isArray(entries)) throw new SkillError('a skill catalog takes a list of entries');
+
+  const bySlug = new Map();
+  for (const entry of entries) {
+    const checked = skill(entry?.skill);
+    const slug = checked.name;
+    if (bySlug.has(slug)) throw new SkillError(`duplicate skill name "${slug}" in the catalog`);
+    const isPublic = checked.lifecycle === 'promoted' && Object.hasOwn(entry, 'license') && entry.license === 'MIT';
+    bySlug.set(slug, isPublic ? Object.freeze({ slug, license: 'MIT', skill: checked }) : null);
+  }
+
+  const listed = Object.freeze([...bySlug.values()].filter(item => item !== null));
+  return Object.freeze({
+    list: () => listed,
+    read(slug) {
+      const item = bySlug.get(slug);
+      if (!item) throw new SkillError('the requested public skill is unavailable');
+      return item;
+    },
+  });
+}
