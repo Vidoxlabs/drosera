@@ -1,12 +1,12 @@
 # drosera
 
-The tooling fabric: tool faces, skills, hooks, and cookbooks. What an agent grips the world with.
+Tooling for agents: tool faces, skills, hooks, cookbooks.
 
-Drosera is the tooling member of the public bloom agent family — the public successor to the internal skills/agents/tools registry. It defines the four packaging forms an agent works with beyond its own context. Tool faces are neutral definitions of what can be called, following seed's tool-id grammar. Skills are packaged instructions that grow context without granting authority. Hooks are deterministic checks, fail closed, bound to run events. Cookbooks are recipes that compose published faces and skills, resolved at validation.
+Drosera is the tooling member of the bloom agent family. It defines the four packaging forms an agent works with beyond its own context. Tool faces are neutral definitions of what can be called, following seed's tool-id grammar. Skills are packaged instructions that grow context without granting authority. Hooks are deterministic checks, fail closed, bound to run events. Cookbooks are recipes that compose published faces and skills, resolved at validation.
 
 ## The name
 
-Drosera is the sundew. A sundew works by extension: sticky tentacles that reach out from the plant and hold what they touch, each one honest about what it has caught. That is the entire doctrine of this fabric — tools reach, each face says what it grips (summary, effect class), and the plant stays a plant: the extensions never become the organism. The harness is the organism; drosera is what it holds.
+Drosera is the sundew. A sundew works by extension: sticky tentacles that reach out from the plant and hold what they touch, each one honest about what it has caught. That is the doctrine here: tools reach, each face says what it grips (summary, effect class), and the extensions never become the organism. The harness is the organism; drosera is what it holds.
 
 ## Status
 
@@ -31,24 +31,25 @@ Requires Node >= 22.13. Zero runtime dependencies.
 
 ## The family
 
-Drosera is one of six named projects that share one design law — ordinary botanical words for public products, mirroring five flower-named personas ([the law](https://github.com/Vidoxlabs/capillary/blob/main/docs/family.md)):
+The family follows one design law: ordinary botanical words for public products, mirroring five flower-named personas ([the law](https://github.com/Vidoxlabs/capillary/blob/main/docs/family.md)).
 
 | Name | Province |
 | :--- | :--- |
-| [`seed`](https://github.com/Vidoxlabs/seed) | The agent harness foundation: runs, tools, providers. |
-| [`capillary`](https://github.com/Vidoxlabs/capillary) | Context retrieval and relations, provenance-first. |
-| [`myosotis`](https://github.com/Vidoxlabs/myosotis) | Governed memory: consent to keep, promise to forget. |
-| [`aestivation`](https://github.com/Vidoxlabs/aestivation) | Plan proposal, deterministic validation, review verdicts, and the assembly gate. |
-| `drosera` (this repo) | The tooling fabric: faces, skills, hooks, cookbooks. |
-| [`bloom`](https://github.com/Vidoxlabs/bloom) | The agent harness the family serves: the team workspace where agents run. |
-| [`trellis`](https://github.com/Vidoxlabs/trellis) | The testing lattice: multi-point probes over the family. |
+| [`seed`](https://github.com/Vidoxlabs/seed) | Harness foundation: runs, tools, providers |
+| [`capillary`](https://github.com/Vidoxlabs/capillary) | Context retrieval and relations, provenance-first |
+| [`myosotis`](https://github.com/Vidoxlabs/myosotis) | Memory with consent and structural forget |
+| [`aestivation`](https://github.com/Vidoxlabs/aestivation) | Plans, verdicts, and the gate before assembly |
+| `drosera` (this repo) | Tool faces, skills, hooks, cookbooks |
+| [`trellis`](https://github.com/Vidoxlabs/trellis) | Multi-point testing with dated evidence |
+| [`bloom`](https://github.com/Vidoxlabs/bloom) | The team workspace harness |
 
 ## Documentation
 
-- `docs/charter.md` — mission, principles, non-goals.
-- `docs/architecture.md` — the tentacles and how they compose.
-- `docs/contracts/` — the tool, skill, hook, and cookbook contracts.
-- `docs/interop.md` — how each sibling meets this fabric.
+- `AGENTS.md`: start here before editing. Stay in this repository's province.
+- `docs/charter.md`: mission, principles, non-goals.
+- `docs/architecture.md`: the tentacles and how they compose.
+- `docs/contracts/`: the tool, skill, hook, and cookbook contracts.
+- `docs/interop.md`: how each sibling meets this fabric.
 
 ## Development
 

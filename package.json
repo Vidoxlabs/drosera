@@ -1,7 +1,7 @@
 {
   "name": "@vidoxlabs/drosera",
   "version": "0.2.0",
-  "description": "The tooling fabric: tool faces, skills, hooks, and cookbooks. The extensions an agent works with, in the bloom agent family.",
+  "description": "Tooling for agents: tool faces, skills, hooks, cookbooks.",
   "type": "module",
   "main": "src/index.mjs",
   "scripts": {
