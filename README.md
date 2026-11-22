@@ -10,7 +10,7 @@ Drosera is the sundew. A sundew works by extension: sticky tentacles that reach 
 
 ## Status
 
-Version 2.0.0. Pack formats, validation, reference resolution, and the in-memory skill catalog are `implemented` in the reference library. A live registry, connector bindings, and server interfaces remain `specified` or `planned`.
+Version 2.1.0. Pack formats, validation, reference resolution, and the in-memory skill catalog are `implemented` in the reference library. A live registry, connector bindings, and server interfaces remain `specified` or `planned`.
 
 ## Install
 

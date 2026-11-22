@@ -7,7 +7,7 @@ Label: `specified` (rules), `implemented` (records, pack, and dispatch in `src/h
 ```
 hook { id, event, summary, check }
 id      kebab-case string, unique within a pack
-event   one of: run-start | before-tool | after-tool | run-end
+event   one of: run-start | before-tool | after-tool | run-end | skill-promoted | skill-deprecated
 summary non-empty; what the check guarantees
 check   a function: (payload) → { ok, message? } — deterministic code, never prose
 ```
@@ -24,6 +24,20 @@ The four events are the minimal neutral points a run model can always provide:
 | `run-end` | a run completes | the outcomes |
 
 A harness with richer event points may extend the set in its own registers; this contract holds the four every run model can honor.
+
+Two lifecycle events sit beside the run events. They fire when a caller hands
+`runHooks` the notice a skill lifecycle move left (`lifecycleNotice` in
+`src/skills.mjs`, see the skills contract):
+
+| Event | Fires | Payload carries |
+| :--- | :--- | :--- |
+| `skill-promoted` | a skill moved from `review` to `promoted` | `{ name, from, to, approver }` |
+| `skill-deprecated` | a skill moved to `deprecated` | `{ name, from, to, reason }` |
+
+Nothing fires them on its own. `transitionSkill` is pure and calls neither
+`lifecycleNotice` nor `runHooks`; the caller that made the move builds the notice and
+dispatches it. Dispatch is the same as for the run events: pack order, and a check that
+throws is a failed check.
 
 ## Hook rules
 
@@ -51,5 +65,10 @@ runHooks(pack, event, payload) → results[]  — { id, passed, detail } in pack
 - Not a verdict. Review verdicts are the admission loop's records. A hook passes or fails a check; it never records an approve and never requests revisions.
 
 ## Changes
+
+- `2.1.0` — adds the `skill-promoted` and `skill-deprecated` events. The four run
+  events stay valid, and every hook and pack valid before still validates and
+  dispatches as before. A caller that compared `EVENTS` to the four-event set sees two
+  more members.
 
 - `0.2.0` — `hookPack` checks every entry with the hook rules. Before `0.2.0` a frozen record with a known event entered the pack unchecked, so a record whose check was prose could be packed; dispatch then failed it closed, but the pack held something that was not a hook. The change refuses entries that never met this contract; every valid entry packs as before.

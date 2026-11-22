@@ -97,8 +97,8 @@ test('a skill pack dedupes by name', () => {
   assert.throws(() => skillPack([a, b]), /duplicate skill name/);
 });
 
-test('the hook events are exactly the four run points', () => {
-  assert.deepEqual([...EVENTS].sort(), ['after-tool', 'before-tool', 'run-end', 'run-start']);
+test('the hook events are exactly the four run points and the two lifecycle notices', () => {
+  assert.deepEqual([...EVENTS].sort(), ['after-tool', 'before-tool', 'run-end', 'run-start', 'skill-deprecated', 'skill-promoted']);
 });
 
 test('a hook check is a function by construction: prose is rejected', () => {

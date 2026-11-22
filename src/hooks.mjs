@@ -2,8 +2,9 @@
 // function, never prose, never a model call. Dispatch fails closed: a check
 // that throws is a failed check, and the failure stands.
 
+// Four run points, and two lifecycle notices (see lifecycleNotice in skills.mjs).
 export const EVENTS = Object.freeze(
-  new Set(['run-start', 'before-tool', 'after-tool', 'run-end'])
+  new Set(['run-start', 'before-tool', 'after-tool', 'run-end', 'skill-promoted', 'skill-deprecated'])
 );
 
 export class HookError extends Error {

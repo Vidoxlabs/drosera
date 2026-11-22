@@ -44,6 +44,10 @@ A hook is a deterministic check bound to a run event: `{ id, event, summary, che
 | `before-tool` | before a tool call is dispatched |
 | `after-tool` | after a tool call returns |
 | `run-end` | a run completes |
+| `skill-promoted` | a caller dispatches the notice of a review → promoted move |
+| `skill-deprecated` | a caller dispatches the notice of a move to deprecated |
+
+The two lifecycle events carry the frozen notice `lifecycleNotice` returns. `transitionSkill` never fires them; the caller that moved the skill does.
 
 The `check` must be a function. This is the shape rule that keeps hooks what they are: deterministic code, not prose, not prompts, and never a model call. A forgotten invariant in a hook is code the author forgot to write, not a thought the hook had.
 

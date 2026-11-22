@@ -10,12 +10,12 @@ export {
   toolPack,
 } from './pack.mjs';
 export {
-  SkillError, VENDOR_NAMES, LIFECYCLE_STATES, SECTION_LISTS, skill, skillPack, transitionSkill, skillCatalog,
+  SkillError, VENDOR_NAMES, LIFECYCLE_STATES, SECTION_LISTS, lifecycleNotice, skill, skillPack, transitionSkill, skillCatalog,
 } from './skills.mjs';
 export { EVENTS, HookError, hook, hookPack, runHooks } from './hooks.mjs';
 export { RecipeError, recipe, cookbook, checkRecipe } from './cookbook.mjs';
 
-export const VERSION = '2.0.0';
+export const VERSION = '2.1.0';
 
 export function about() {
   const lines = [
@@ -28,7 +28,8 @@ export function about() {
     '            examples, sources: context, never authority;',
     '            lifecycle intake, draft, review, promoted, deprecated (terminal);',
     '            promotion only from review; public skill catalog',
-    '  hooks     deterministic checks, fail closed, bound to run events',
+    '  hooks     deterministic checks, fail closed, bound to run events and to',
+    '            skill-promoted / skill-deprecated lifecycle notices',
     '  cookbook  recipes whose references resolve at validation',
     '',
     'effect classes: read, write, destructive, credential',

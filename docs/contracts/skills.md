@@ -72,6 +72,23 @@ record keeps no history, so a record built directly as `promoted` is checked for
 `promotedBy` and not for the path it took. A lifecycle state is a review label. It
 grants nothing (rule 2).
 
+## Lifecycle notices
+
+`implemented` in `src/skills.mjs`. `lifecycleNotice(before, after)` checks both records
+as skills and returns the notice a move leaves for the hook events `skill-promoted` and
+`skill-deprecated` (see the hooks contract). It ports the predecessor's promoted and
+deprecated log events as a record only.
+
+| `before.lifecycle` | `after.lifecycle` | Notice (frozen) |
+| --- | --- | --- |
+| `review` | `promoted` | `{ name, from: 'review', to: 'promoted', approver }`, with `approver` from `promotedBy` |
+| `intake`, `draft`, `review`, or `promoted` | `deprecated` | `{ name, from, to: 'deprecated', reason }`, with `reason` from `deprecatedReason` |
+
+Every other pair throws `SkillError`. A move into `draft`, `intake`, or `review` is not a
+notice, and neither is a pair that is not a move or a pair naming two different skills.
+The function writes no file, reads no environment variable, and calls no network.
+`transitionSkill` stays pure: it does not build a notice or dispatch a hook.
+
 ## The pack
 
 ```
@@ -106,6 +123,10 @@ Build a fresh snapshot when a skill's lifecycle or license changes.
 - Not a tool. A skill has no effect class, makes no calls, and is never dispatched.
 
 ## Changes
+
+- `2.1.0` — additive `lifecycleNotice` export, the record for the new hook events
+  `skill-promoted` and `skill-deprecated`. No skill, transition, pack, or catalog call
+  valid under `2.0.0` changes.
 
 - `2.0.0` — breaking. The lifecycle gains `intake` and `review`, and a draft reaches
   `promoted` only through `review`. `transitionSkill(draft, 'promoted', …)`, valid

@@ -141,6 +141,29 @@ export function transitionSkill(record, to, { approver, reason } = {}) {
   });
 }
 
+/**
+ * The notice a lifecycle move leaves for the `skill-promoted` and `skill-deprecated`
+ * hook events. Both records are checked as skills and must name the same skill.
+ * Review → promoted returns frozen `{ name, from, to, approver }`; any live state →
+ * deprecated returns frozen `{ name, from, to, reason }`. Every other pair throws.
+ * The notice is a plain record: nothing is written, read from the environment, or sent.
+ * `transitionSkill` does not produce it; a caller that wants hooks builds it.
+ */
+export function lifecycleNotice(before, after) {
+  const from = skill(before);
+  const to = skill(after);
+  if (from.name !== to.name) {
+    throw new SkillError(`a lifecycle notice compares one skill: "${from.name}" is not the same skill as "${to.name}"`);
+  }
+  if (to.lifecycle === 'promoted' && from.lifecycle === 'review') {
+    return Object.freeze({ name: to.name, from: 'review', to: 'promoted', approver: to.promotedBy });
+  }
+  if (to.lifecycle === 'deprecated' && from.lifecycle !== 'deprecated') {
+    return Object.freeze({ name: to.name, from: from.lifecycle, to: 'deprecated', reason: to.deprecatedReason });
+  }
+  throw new SkillError(`${from.lifecycle} → ${to.lifecycle} is not a lifecycle notice; only review → promoted and a move to deprecated are`);
+}
+
 export function skillPack(skills = []) {
   if (!Array.isArray(skills)) {
     throw new SkillError('a skill pack takes a list of skills');
