@@ -47,7 +47,7 @@ This repository packages external tool faces, skills, hooks, and cookbooks. It i
 
 Do not add a connector, a registry server, or a live tool.
 
-## Where the other six live
+## Where the other seven live
 
 | The work | Repository |
 | --- | --- |
@@ -58,6 +58,7 @@ Do not add a connector, a registry server, or a live tool.
 | Tool faces, skills, hooks, cookbooks | `drosera` (here) |
 | Probes over those libraries | `trellis` |
 | The team workspace a person opens | `bloom` |
+| Family documentation, synced from every public repository | `docs` |
 
 ## Skills
 
