@@ -26,6 +26,7 @@ tips          optional list of non-empty strings; small, load-bearing reminders
 skillPack(skills) → { skill(name), names(), has(name), size }
 ```
 
+- **Every entry is checked.** The pack runs each entry through `skill`. A frozen object is not trusted because it is frozen.
 - **Unique names.** Two skills with the same name is a pack error.
 - **Frozen.** Skills and packs freeze on build.
 - **A pack is a collection.** Discovery, storage, and loading are service concerns, `specified` nowhere here beyond the shapes.
@@ -35,3 +36,7 @@ skillPack(skills) → { skill(name), names(), has(name), size }
 - Not code. A skill executes nothing; a reader reads it.
 - Not a hook. A skill's instructions have no event and no check function; what fires deterministically is a hook's job.
 - Not a tool. A skill has no effect class, makes no calls, and is never dispatched.
+
+## Changes
+
+- `0.2.0` — `skillPack` checks every entry with the skill rules. Before `0.2.0` a frozen object with a string name entered the pack unchecked, so a skill with no instructions could be packed. The change refuses entries that never met this contract; every valid entry packs as before.

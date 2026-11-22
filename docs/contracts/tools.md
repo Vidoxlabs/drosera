@@ -38,6 +38,7 @@ These pairings are observed usage across the family, noted here so packs read co
 toolPack(faces) → { face(id), inDomain(domain), has(id), ids(), size }
 ```
 
+- **Every entry is checked.** The pack runs each entry through `toolFace`, whatever it is and wherever it came from. A frozen object is not trusted because it is frozen: an invalid ID, a missing connector, or an empty summary is a pack error.
 - **Unique IDs.** Two faces with the same ID is a pack error; the second one is never silently dropped.
 - **Frozen.** A pack and its faces are frozen on build. Correction is a rebuild, not a mutation.
 - **Domain listing.** `inDomain` returns the faces whose ID's first segment matches, in pack order. Domains partition nothing two packs share: a pack is a collection, not the universe.
@@ -45,3 +46,7 @@ toolPack(faces) → { face(id), inDomain(domain), has(id), ids(), size }
 ## Faces vs registry entries
 
 A face is a definition. A registry entry — seed's runtime record with `realm`, `thirdPartyEgress`, `ownerGate`, `inputSchema` — is an admission. Drosera never writes registry entries and never grants gates; the harness builds its entries from faces when a run admits a tool. Nothing in this contract may be read as runtime admission.
+
+## Changes
+
+- `0.2.0` — `toolPack` checks every entry with the face rules. Before `0.2.0` a frozen object with a known effect class entered the pack unchecked, so a face with a malformed ID or an empty summary could be packed. The change refuses entries that never met this contract; every valid entry packs as before.

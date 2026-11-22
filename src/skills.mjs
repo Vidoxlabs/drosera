@@ -46,9 +46,8 @@ export function skillPack(skills = []) {
   }
   const byName = new Map();
   for (const item of skills) {
-    const checked = item && Object.isFrozen(item) && typeof item.name === 'string'
-      ? item
-      : skill(item);
+    // Every entry is checked again; frozen is not the same as valid.
+    const checked = skill(item);
     if (byName.has(checked.name)) {
       throw new SkillError(`duplicate skill name "${checked.name}": a pack holds one skill per name`);
     }

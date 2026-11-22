@@ -92,11 +92,9 @@ export function toolPack(faces = []) {
   }
   const byId = new Map();
   for (const face of faces) {
-    // toolFace has already validated in the normal path, but a pack refuses
-    // anything that is not a face, wherever it came from.
-    const checked = face && Object.isFrozen(face) && EFFECT_CLASSES.has(face.effect)
-      ? face
-      : toolFace(face);
+    // A pack refuses anything that is not a face, wherever it came from:
+    // every entry is checked again, and frozen is not the same as valid.
+    const checked = toolFace(face);
     if (byId.has(checked.id)) {
       throw new FaceError(`duplicate tool ID "${checked.id}": a pack holds one face per ID`);
     }

@@ -68,7 +68,8 @@ export function cookbook(recipes = []) {
   }
   const byId = new Map();
   for (const item of recipes) {
-    const checked = item && Object.isFrozen(item) ? item : recipe(item);
+    // Every entry is checked again; frozen is not the same as valid.
+    const checked = recipe(item);
     if (byId.has(checked.id)) {
       throw new RecipeError(`duplicate recipe id "${checked.id}": a cookbook holds one recipe per id`);
     }

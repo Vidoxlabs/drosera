@@ -57,4 +57,4 @@ The composition rule: references resolve at validation. `checkRecipe` walks the 
 
 ## What this edition is
 
-`src/` implements the four packs as pure data structures: validation, freezing, deduplication, lookup, event dispatch for hooks, and reference resolution for recipes. No I/O, no storage, no network. A live registry behind these formats is `specified` in the contracts; the service that would host it is deliberately out of scope here.
+`src/` implements the four packs as pure data structures: validation, freezing, deduplication, lookup, event dispatch for hooks, and reference resolution for recipes. Every pack checks every entry it is given with its record rules; a frozen object is not trusted because it is frozen. No I/O, no storage, no network. A live registry behind these formats is `specified` in the contracts; the service that would host it is deliberately out of scope here.

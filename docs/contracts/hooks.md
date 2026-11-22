@@ -40,6 +40,7 @@ hookPack(hooks)            → { hook(id), hooksFor(event), ids(), size }
 runHooks(pack, event, payload) → results[]  — { id, passed, detail } in pack order
 ```
 
+- **Every entry is checked.** The pack runs each entry through `hook`. A frozen record whose `check` is not a function is not a hook, and the pack refuses it. The packed record references the same check function it was given.
 - **Unique IDs.** A duplicate hook ID is a pack error.
 - **Pack order dispatch.** Hooks run in pack order for the event; results are reported in the same order, each marked `passed: true|false`.
 - **Frozen records.** A hook freezes on creation; its behavior is its check's code, referenced, not copied.
@@ -48,3 +49,7 @@ runHooks(pack, event, payload) → results[]  — { id, passed, detail } in pack
 
 - Not a specialist. A check that needs judgment belongs to the harness's reviewers; a hook that wants a model is mislabeled and rejected at the boundary of this contract's doctrine even though its shape may validate.
 - Not a verdict. Review verdicts are the admission loop's records. A hook passes or fails a check; it never records an approve and never requests revisions.
+
+## Changes
+
+- `0.2.0` — `hookPack` checks every entry with the hook rules. Before `0.2.0` a frozen record with a known event entered the pack unchecked, so a record whose check was prose could be packed; dispatch then failed it closed, but the pack held something that was not a hook. The change refuses entries that never met this contract; every valid entry packs as before.

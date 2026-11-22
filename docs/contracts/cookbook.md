@@ -27,6 +27,7 @@ cookbook(recipes)      → { recipe(id), ids(), size }
 checkRecipe(recipe, toolPack, skillPack) → { ok, errors[] }
 ```
 
+- **Every entry is checked.** The cookbook runs each entry through `recipe`. A frozen object is not trusted because it is frozen.
 - **Unique IDs.** Two recipes with the same ID is a cookbook error.
 - **Check is data.** `checkRecipe` returns errors openly, in step order; it never repairs, drops, or reorders steps to make a recipe pass.
 - **Frozen.** Recipes freeze on creation.
@@ -36,3 +37,7 @@ checkRecipe(recipe, toolPack, skillPack) → { ok, errors[] }
 - Not a script. A recipe describes; it executes nothing. The run that follows a recipe is a run, with every gate a run has.
 - Not a plan. Plans, validation rule packs, and verdicts are the admission loop's records; a recipe is documentation of repeatable work, composable with faces and skills but never gating assembly.
 - Not a substitute for testing the steps. Each face keeps its own summary, effect class, and behavior; a recipe's sequence being valid says nothing about whether any individual call succeeded — that is each call's business.
+
+## Changes
+
+- `0.2.0` — `cookbook` checks every entry with the recipe rules. Before `0.2.0` any frozen object entered the cookbook unchecked, so a recipe with no steps, or a step of both kinds, could be held. The change refuses entries that never met this contract; every valid entry packs as before.

@@ -10,7 +10,7 @@ Drosera is the sundew. A sundew works by extension: sticky tentacles that reach 
 
 ## Status
 
-Version 0.1.0. Contracts and modules only; nothing shipped runtime-wise. The pack formats, validation rules, and reference-resolution check are `implemented` as a tested reference library. A live registry, connector bindings, and any server shape are `specified` or `planned`, not built.
+Version 0.2.0. Contracts and modules only; nothing shipped runtime-wise. The pack formats, validation rules, and reference-resolution check are `implemented` as a tested reference library. A live registry, connector bindings, and any server shape are `specified` or `planned`, not built.
 
 ## Install
 

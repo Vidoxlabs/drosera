@@ -13,7 +13,7 @@ export { SkillError, skill, skillPack } from './skills.mjs';
 export { EVENTS, HookError, hook, hookPack, runHooks } from './hooks.mjs';
 export { RecipeError, recipe, cookbook, checkRecipe } from './cookbook.mjs';
 
-export const VERSION = '0.1.0';
+export const VERSION = '0.2.0';
 
 export function about() {
   const lines = [

@@ -37,7 +37,9 @@ export function hookPack(hooks = []) {
   }
   const byId = new Map();
   for (const item of hooks) {
-    const checked = item && Object.isFrozen(item) && EVENTS.has(item.event) ? item : hook(item);
+    // Every entry is checked again; frozen is not the same as valid. The new
+    // record references the same check function, never a copy.
+    const checked = hook(item);
     if (byId.has(checked.id)) {
       throw new HookError(`duplicate hook id "${checked.id}": a pack holds one hook per id`);
     }
