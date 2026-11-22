@@ -1,7 +1,7 @@
 // Drosera pack: tool faces under seed's neutral tool-id grammar.
 // The grammar is seed's contract (docs/contracts/tool-id.md); this mirror
-// exists so packs validate offline. When they disagree, seed wins and this
-// mirror fixes itself in the same commit.
+// exists so packs validate offline. When they disagree, seed's grammar wins.
+// Refreshing this copy is a drosera change. A seed change does not edit it.
 
 const SEGMENT = /^[a-z][a-z0-9-]*$/;
 const INFRASTRUCTURE_LIKE = /^(?:v\d+|ct\d+|node\d+|host\d+|stage\d+)$/;

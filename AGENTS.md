@@ -29,7 +29,7 @@ These rules bind contributions to this repository and the code it accepts:
 - Skills grow context, never authority. Loading a skill admits no effects, unlocks no domains, and grants no scope beyond what the run already has.
 - Hooks are deterministic code, fail closed. A hook record without a check function is not a hook. A hook that needs a model is not a hook; it is a specialist's job. A check that throws is a failed check, never a skipped one.
 - Cookbooks resolve their references at validation. A recipe pointing at a face nobody ships or a skill nobody packaged is a defect at check time, not a surprise at runtime.
-- One grammar across the family. Tool IDs follow seed's neutral grammar. This repository mirrors it locally; when the mirror and seed's contract disagree, seed wins and this repository fixes its mirror in the same commit.
+- One grammar across the family. Tool IDs follow seed's neutral grammar. This repository mirrors it locally. When the mirror and seed disagree, seed wins. Refresh the mirror in a drosera change, with the test that shows the disagreement is gone. A task that started in seed does not edit this repository. Until the mirror is refreshed, the disagreement is debt. Trellis may report it. That report is not permission for the seed task to grow into this checkout.
 
 ## Public safety
 
@@ -40,3 +40,46 @@ This is a public repository. No hostnames, addresses, ports, cluster names, cont
 - `npm test` must stay green. A claim of `implemented` requires a passing test named for it.
 - Docs change with code or they do not change at all. There is no "docs later."
 - Every validation rule must be visible in a test. If it cannot be tested, it is a wish, and it must be labeled `planned`, not `implemented`.
+
+## Stay in this province
+
+This repository packages external tool faces, skills, hooks, and cookbooks. It is a peer, not seed's harness tooling. Seed is the floor and owns the grammar. Capillary, myosotis, and aestivation are the other peers. Bloom is the only composer. Trellis is outside the call path. This task does not edit them. A skill grants no authority. A hook is deterministic and fails closed. A cookbook resolves its references when it is checked. When this grammar and seed's grammar disagree, seed wins. The mirror is refreshed in a later drosera task, not in seed's commit.
+
+Do not add a connector, a registry server, or a live tool.
+
+## Where the other six live
+
+| The work | Repository |
+| --- | --- |
+| Run records, tool identity, provider shape | `seed` |
+| Bounded retrieval and relations | `capillary` |
+| Consent, forget, and recall | `myosotis` |
+| Plans, verdicts, and the assembly gate | `aestivation` |
+| Tool faces, skills, hooks, cookbooks | `drosera` (here) |
+| Probes over those libraries | `trellis` |
+| The team workspace a person opens | `bloom` |
+
+## Skills
+
+The skill contract is `docs/contracts/skills.md`, and the checker is `src/skills.mjs`. A skill in this repository is a record that contract accepts. It still grants no tool and no gate. Do not describe a skill as an agent that may act.
+
+## Agents
+
+One working method lives here. Do not add a roster of agents. A specialist that uses a face is bloom's concern. The face's definition can live here. The run that calls it cannot.
+
+## References
+
+Read in this order: this file, `docs/charter.md`, `docs/architecture.md`, `docs/contracts/`, `docs/interop.md`, then `src/`. Code and `npm test` win over a stale sentence.
+
+## Cookbook
+
+The cookbook contract is `docs/contracts/cookbook.md`. `checkRecipe` is the checker. A recipe in documentation is not cooked by this repository.
+
+1. Read this file and the charter.
+2. Run `npm test`.
+3. Change a validation rule only together with the test that holds it.
+4. Stop at the province boundary in the table above.
+
+## MCP
+
+This repository is not an MCP server. Do not commit an MCP configuration, a server address, or a credential. An MCP tool, if one is ever packaged, is a face plus a connector. The connector is not in this repository. Vendor names stay out of the tool identifier.
