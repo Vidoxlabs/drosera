@@ -12,13 +12,16 @@
         {
           "id": "CAP-01.6",
           "title": "Drosera capability docs and run guard / scan specs",
+          "milestone": "M0",
           "status": "in-progress"
         }
       ],
       "toolIds": [],
       "contracts": [],
       "tests": [],
-      "prs": [],
+      "prs": [
+        "drosera#1"
+      ],
       "commits": [],
       "adr": [],
       "decision": null,
@@ -34,6 +37,7 @@
         {
           "id": "CAP-02.6",
           "title": "Self-test test/capabilities.test.mjs in drosera",
+          "milestone": "M2",
           "status": "proposed"
         }
       ],
@@ -56,6 +60,7 @@
         {
           "id": "CAP-03.2",
           "title": "Optional inputSchema and outputSchema on tool faces with parity check",
+          "milestone": "M2",
           "status": "proposed"
         }
       ],
@@ -80,6 +85,7 @@
         {
           "id": "CAP-04.1",
           "title": "Workspace and finish tool faces pack and recipe",
+          "milestone": "M2",
           "status": "proposed"
         }
       ],
@@ -105,6 +111,7 @@
         {
           "id": "CAP-05.4",
           "title": "Packer tool faces, map-first exploration skill, and recipe",
+          "milestone": "M2",
           "status": "proposed"
         }
       ],
@@ -131,6 +138,7 @@
         {
           "id": "CAP-06.3",
           "title": "Face metadata alignment for owner-gate and egress flags",
+          "milestone": "M4",
           "status": "proposed"
         }
       ],
@@ -155,6 +163,19 @@
         {
           "id": "CAP-09.1",
           "title": "Add before-model and after-model run events to hook contract and pack",
+          "milestone": "M3",
+          "status": "proposed"
+        },
+        {
+          "id": "CAP-09.2",
+          "title": "Clarification pause and guard refusal codes",
+          "milestone": "M3",
+          "status": "proposed"
+        },
+        {
+          "id": "CAP-09.3",
+          "title": "Ordered guard hook chain in run loop",
+          "milestone": "M3",
           "status": "proposed"
         }
       ],
@@ -179,6 +200,7 @@
         {
           "id": "CAP-15.1",
           "title": "Research source search face with third-party egress metadata",
+          "milestone": "M8",
           "status": "proposed"
         }
       ],
@@ -203,6 +225,7 @@
         {
           "id": "CAP-18.2",
           "title": "Outline reader tool face definition and schema",
+          "milestone": "M8",
           "status": "proposed"
         }
       ],
@@ -227,6 +250,13 @@
         {
           "id": "CAP-19.1",
           "title": "Deterministic skill safety scanner and skill-promoted hook integration",
+          "milestone": "M9",
+          "status": "proposed"
+        },
+        {
+          "id": "CAP-19.2",
+          "title": "Skill safety scan behavior probes",
+          "milestone": "M9",
           "status": "proposed"
         }
       ],

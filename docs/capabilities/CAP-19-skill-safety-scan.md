@@ -62,8 +62,8 @@ None. This capability defines a deterministic safety scanner and hook check and 
 
 ## Slices
 
-- `CAP-19.1` (`drosera`): Deterministic skill safety scanner and `skill-promoted` hook integration (`docs/contracts/skills.md`, `docs/contracts/hooks.md`, `src/`, `test/`).
-- `CAP-19.2` (`trellis`): Skill safety scan behavior probes over injected `drosera` exports (`docs/contracts/probes.md`, `src/` / `test/`).
+- `CAP-19.1` (`drosera`, `M9`, `proposed`): Deterministic skill safety scanner and `skill-promoted` hook integration (`docs/contracts/skills.md`, `docs/contracts/hooks.md`, `src/`, `test/`).
+- `CAP-19.2` (`trellis`, `M9`, `proposed`): Skill safety scan behavior probes over injected `drosera` exports (`docs/contracts/probes.md`, `src/` / `test/`).
 
 ## Non-goals
 
@@ -81,7 +81,7 @@ None. This capability defines a deterministic safety scanner and hook check and 
 
 ## Open owner decisions
 
-- **Notice payload shape vs pre-transition scan helper**: Currently `lifecycleNotice(before, after)` returns `{ name, from, to, approver }` without the skill record or document text, and `transitionSkill` stays pure without dispatching hooks. Whether callers pass `{ notice, skill, markdown? }` to the `skill-promoted` safety hook or also run `scanSkill()` as a prerequisite before `transitionSkill(..., 'promoted')` (plus exact boundary between `critical` and `warning` rules) will be settled before `CAP-19.1` implementation.
+- **Notice payload shape vs pre-transition scan helper (pending owner decision)**: Currently `lifecycleNotice(before, after)` returns `{ name, from, to, approver }` without the skill record or document text, and `transitionSkill` stays pure without dispatching hooks. Whether callers pass `{ notice, skill, markdown? }` to the `skill-promoted` safety hook or also run `scanSkill()` as a prerequisite before `transitionSkill(..., 'promoted')` (plus exact boundary between `critical` and `warning` rules) will be settled before `CAP-19.1` implementation (see `D13` and `D14` in `docs/timeline/decisions.md` for timeline and slice milestone conventions).
 
 ## Evidence
 
@@ -91,3 +91,4 @@ None. This capability defines a deterministic safety scanner and hook check and 
 ## Changes
 
 - `2026-11-23`: Initial specification created in `docs-timeline-scaffold` (`proposed`, `planned`).
+- `2026-11-23`: Added `M9` slice milestones and clarified open owner decision status (`CAP-01`, review fixes).

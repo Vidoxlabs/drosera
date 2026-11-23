@@ -63,9 +63,9 @@ Note: `bloom` also records typed guard decision events (pass, warn, cut, compact
 
 ## Slices
 
-- `CAP-09.1` (`drosera`): Add `before-model` and `after-model` run events to hook contract and pack (`docs/contracts/hooks.md`, `src/hooks.mjs`, `test/`).
-- `CAP-09.2` (`seed`): Clarification pause and guard refusal codes (`docs/contracts/run-model.md`, `src/`).
-- `CAP-09.3` (`bloom`): Ordered guard hook chain in run loop (call limits, repeated-call detection, tool-output budget, context compaction with derived-source provenance, clarification pause, and typed decision events).
+- `CAP-09.1` (`drosera`, `M3`, `proposed`): Add `before-model` and `after-model` run events to hook contract and pack (`docs/contracts/hooks.md`, `src/hooks.mjs`, `test/`).
+- `CAP-09.2` (`seed`, `M3`, `proposed`): Clarification pause and guard refusal codes (`docs/contracts/run-model.md`, `src/`).
+- `CAP-09.3` (`bloom`, `M3`, `proposed`): Ordered guard hook chain in run loop (call limits, repeated-call detection, tool-output budget, context compaction with derived-source provenance, clarification pause, and typed decision events).
 
 ## Non-goals
 
@@ -84,9 +84,9 @@ Note: `bloom` also records typed guard decision events (pass, warn, cut, compact
 
 ## Open owner decisions
 
-- **D4 relation (schema validation ownership)**: Where guard inspection or `question` / tool-output metadata interacts with typed tool schemas (`CAP-03`), whether `drosera` mirrors `seed`'s schema subset with parity checks or imports `seed` directly is governed by pending owner decision D4.
-- **Default guard thresholds**: Exact default per-run limits (model calls, tool calls, tokens, tool-output byte cap, context compaction threshold, and repeat threshold `N`) require explicit defaults before `CAP-09.3` ships.
-- **D12 relation**: Related P3 harness sequencing and configuration rulings live in `docs/timeline/decisions.md`.
+- **D4 (pending owner decision)**: Schema validation ownership (`CAP-03`). Whether `drosera` mirrors `seed`'s schema subset with a parity test (the same way it mirrors the tool grammar) when guard inspection or `question` / tool-output metadata uses typed schemas is governed by pending owner decision `D4`.
+- **Default guard thresholds (pending owner decision)**: Exact default per-run limits (model calls, tool calls, tokens, tool-output byte cap, context compaction threshold, and repeat threshold `N`) require explicit defaults before `CAP-09.3` ships.
+- **D12 / D13 / D14 relation (pending owner decision)**: Pending `bloom` P2 tool IDs (`D12`, guarded in `CAP-04` and `CAP-09`), timeline milestones (`D13`), and `M3` slice milestone conventions (`D14`) live in `docs/timeline/decisions.md`.
 
 ## Evidence
 
@@ -96,3 +96,4 @@ Note: `bloom` also records typed guard decision events (pass, warn, cut, compact
 ## Changes
 
 - `2026-11-23`: Initial specification created in `docs-timeline-scaffold` (`proposed`, `planned`).
+- `2026-11-23`: Added `M3` slice milestones and aligned canonical `D4` and `D12` decision references (`CAP-01`, review fixes).
