@@ -62,7 +62,7 @@ Do not add a connector, a registry server, or a live tool.
 
 ## Skills
 
-The skill contract is `docs/contracts/skills.md`, and the checker is `src/skills.mjs`. A skill in this repository is a record that contract accepts. It still grants no tool and no gate. Do not describe a skill as an agent that may act.
+The skill contract is `docs/contracts/skills.md`, the checker is `src/skills.mjs`, and the document reader is `src/skill-markdown.mjs`. The reader takes text, never a path. A skill in this repository is a record that contract accepts. It still grants no tool and no gate. Do not describe a skill as an agent that may act.
 
 ## Agents
 

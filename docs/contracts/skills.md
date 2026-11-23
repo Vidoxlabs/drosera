@@ -1,6 +1,7 @@
 # Contract: skills
 
-Label: `specified` (shape), `implemented` (validation and pack in `src/skills.mjs`).
+Label: `specified` (shape), `implemented` (validation and pack in `src/skills.mjs`, the
+document reader in `src/skill-markdown.mjs`).
 
 ## Shape
 
@@ -27,10 +28,78 @@ deprecatedReason  required on a deprecated skill; why it was retired
 
 `SECTION_LISTS` exports the five lists added in `1.0.0`, in the order above. Together
 with `summary`, `procedure`, `guardrails`, and `verification`, they are the record form
-of the nine sections the predecessor skill validator required in a skill document. This
-repository checks the record. It does not parse a document. A missing list, an empty
-list, or a list holding anything but non-empty text is refused, and each refusal names
-its field.
+of the nine sections the predecessor skill validator required in a skill document.
+`skill()` checks the record. `skillFromMarkdown` reads a document's text into one (see
+"Skill documents" below). A missing list, an empty list, or a list holding anything but
+non-empty text is refused, and each refusal names its field.
+
+## Skill documents
+
+`implemented` in `src/skill-markdown.mjs`. `skillFromMarkdown(text)` reads a skill
+document the caller already holds and returns the record `skill()` accepts, after
+`skill()` has checked it. It ports the predecessor skill validator's required sections
+and required frontmatter fields onto text. It reads no file, walks no directory, takes
+no path, and calls no network. Text that is not a string is refused.
+
+**Frontmatter.** The text opens with a `---` line, and the frontmatter ends at the next
+`---` line. It must give `name` and `description`, each as non-empty text. The reader
+takes top-level keys only:
+
+- `key: value`, plain, single-quoted, or double-quoted. A `#` after a space ends a plain
+  value and starts a comment. A double-quoted value reads `\\` and `\"` and refuses
+  every other escape.
+- `key: |` or `key: >`, with or without `-` or `+`, followed by indented lines. `|` keeps
+  the line breaks. `>` joins lines with a space and keeps each blank line as a break.
+- `key:` followed by indented lines, a nested mapping or list. It is kept unread.
+- Blank lines and `#` comment lines.
+
+Every value is trimmed. Any other line, a repeated top-level key, a value continued on
+indented lines without `|` or `>`, an unclosed quote, and a block form with an
+indentation digit are refused, each with its frontmatter line number. This is a bounded
+reader for skill frontmatter, not a YAML parser.
+
+**Headings.** The body holds each of `SKILL_HEADINGS` as a level one or level two
+heading, matched exactly, outside a code fence:
+
+| Heading | Record field |
+| --- | --- |
+| `Summary` | `summary`, after the description |
+| `When to Use (Triggers)` | `triggers` |
+| `Inputs` | `inputs` |
+| `Outputs` | `outputs` |
+| `Procedure / Steps` | `procedure` |
+| `Guardrails` | `guardrails` |
+| `Examples` | `examples` |
+| `Verification` | `verification` |
+| `Sources / Evidence` | `sources` |
+
+A heading at level three or deeper does not count, and neither does one inside a fence.
+A missing heading, a required heading given twice, and a heading whose body holds no
+item are refused. One `SkillError` names every such heading together with every
+frontmatter refusal. Other headings, such as the document title, are not read.
+
+**Items.** A section runs to the next level one or two heading. Its items are:
+
+- each list item (`-`, `*`, `+`, `1.`, or `1)`), at any depth, with its continuation
+  lines joined by a space;
+- each paragraph, its lines joined by a space;
+- each fenced code block (three or more backticks or tildes), its lines kept as they are,
+  without the fence lines.
+
+Blockquote markers are dropped. A heading at level three or deeper inside a section
+labels the items under it, so an item under `### Good` reads `Good: …`. A blank item is
+dropped. `summary` is the description, then each Summary item, separated by blank lines.
+
+**Lifecycle.** The lifecycle stays `draft` unless the frontmatter gives `lifecycle`.
+`lifecycle`, `promotedBy`, and `deprecatedReason` go to `skill()` exactly as the
+frontmatter gives them, and `skill()` checks them. An unknown state, such as `stable` or
+the predecessor's capitalized `Promoted`, is refused. A `promoted` document names
+`promotedBy`, and a `deprecated` one states `deprecatedReason`. When present, each of the
+three keys must be non-empty text. A nested value such as `metadata.status` is not read,
+so a document that marks itself promoted only there reads as a draft.
+
+`skill()` itself is unchanged. A record built without a document stays valid, and
+`skillFromMarkdown` skips no check `skill()` makes.
 
 ## Skill rules
 
@@ -123,6 +192,11 @@ Build a fresh snapshot when a skill's lifecycle or license changes.
 - Not a tool. A skill has no effect class, makes no calls, and is never dispatched.
 
 ## Changes
+
+- `2.2.0` — additive `skillFromMarkdown` and `SKILL_HEADINGS` exports, which read a
+  skill document's text into the record `skill()` accepts. `skill()`, transitions,
+  lifecycle notices, packs, and the catalog are unchanged, and every call valid under
+  `2.1.0` stays valid.
 
 - `2.1.0` — additive `lifecycleNotice` export, the record for the new hook events
   `skill-promoted` and `skill-deprecated`. No skill, transition, pack, or catalog call

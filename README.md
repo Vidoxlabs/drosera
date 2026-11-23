@@ -10,7 +10,7 @@ Drosera is the sundew. A sundew works by extension: sticky tentacles that reach 
 
 ## Status
 
-Version 2.1.0. Pack formats, validation, reference resolution, and the in-memory skill catalog are `implemented` in the reference library. A live registry, connector bindings, and server interfaces remain `specified` or `planned`.
+Version 2.2.0. Pack formats, validation, reference resolution, the skill document reader, and the in-memory skill catalog are `implemented` in the reference library. A live registry, connector bindings, and server interfaces remain `specified` or `planned`.
 
 ## Install
 
@@ -26,6 +26,7 @@ Requires Node >= 22.13. Zero runtime dependencies.
 | :--- | :--- | :--- |
 | `pack.mjs` | Tool faces under seed's neutral tool-id grammar, and the tool pack that collects them with unique IDs and domain listings. | `implemented` |
 | `skills.mjs` | Skill validation, lifecycle transitions, skill packs, and a catalog for promoted MIT skills. | `implemented` |
+| `skill-markdown.mjs` | Reads a skill document's text, which the caller already holds, into the record `skills.mjs` checks. It opens no file. | `implemented` |
 | `hooks.mjs` | Hook records: deterministic checks bound to run events, and the fail-closed hook pack. | `implemented` |
 | `cookbook.mjs` | Recipes composing faces and skills, with validation that every reference resolves. | `implemented` |
 
