@@ -1,0 +1,67 @@
+{
+  "seedCommit": "a6e0296c758f70344cdac243e3ff0ea4f52c0517",
+  "schemaSha256": "63e6621e651c9ff5e1d884ce62c3a4d017fb4bd30b0f40a3364abfa06af55612",
+  "cases": [
+    {
+      "name": "closed fields and nesting",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "paths": { "type": "array", "items": { "type": "string", "minLength": 1 }, "maxItems": 2 },
+          "limit": { "type": "integer", "minimum": 1, "maximum": 5 }
+        },
+        "required": ["paths", "limit"],
+        "additionalProperties": false
+      },
+      "errors": [],
+      "values": [
+        { "input": { "paths": ["fixture"], "limit": 5 }, "errors": [] },
+        { "input": { "paths": [""], "limit": 0, "extra/field~": true }, "errors": ["/extra~1field~0", "/limit", "/paths/0"] },
+        { "input": { "paths": ["a", "b", "c"] }, "errors": ["/limit", "/paths"] }
+      ]
+    },
+    {
+      "name": "primitive enum",
+      "schema": { "enum": [null, false, "fixture", 2] },
+      "errors": [],
+      "values": [
+        { "input": null, "errors": [] },
+        { "input": "fixture", "errors": [] },
+        { "input": 3, "errors": [""] }
+      ]
+    },
+    {
+      "name": "Unicode string bounds",
+      "schema": { "type": "string", "minLength": 1, "maxLength": 1 },
+      "errors": [],
+      "values": [
+        { "input": "\ud83d\ude80", "errors": [] },
+        { "input": "", "errors": [""] },
+        { "input": "ab", "errors": [""] }
+      ]
+    },
+    {
+      "name": "numeric bounds",
+      "schema": { "type": "number", "minimum": 1.5, "maximum": 3 },
+      "errors": [],
+      "values": [
+        { "input": 1.5, "errors": [] },
+        { "input": 3, "errors": [] },
+        { "input": 4, "errors": [""] },
+        { "input": "2", "errors": [""] }
+      ]
+    },
+    {
+      "name": "unsupported nested keyword",
+      "schema": { "properties": { "field/name~": { "pattern": "fixture" } } },
+      "errors": ["/properties/field~1name~0/pattern"],
+      "values": [{ "input": null, "errors": ["/properties/field~1name~0/pattern"] }]
+    },
+    {
+      "name": "malformed keyword values",
+      "schema": { "required": [""], "additionalProperties": true, "enum": [{}], "maxItems": 0.5 },
+      "errors": ["/additionalProperties", "/enum/0", "/maxItems", "/required/0"],
+      "values": []
+    }
+  ]
+}

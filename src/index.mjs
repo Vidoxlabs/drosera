@@ -16,7 +16,7 @@ export { SKILL_HEADINGS, skillFromMarkdown } from './skill-markdown.mjs';
 export { EVENTS, HookError, hook, hookPack, runHooks } from './hooks.mjs';
 export { RecipeError, recipe, cookbook, checkRecipe } from './cookbook.mjs';
 
-export const VERSION = '2.2.0';
+export const VERSION = '2.3.0';
 
 export function about() {
   const lines = [

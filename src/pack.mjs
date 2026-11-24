@@ -3,6 +3,8 @@
 // exists so packs validate offline. When they disagree, seed's grammar wins.
 // Refreshing this copy is a drosera change. A seed change does not edit it.
 
+import { checkSchema } from './schema.mjs';
+
 const SEGMENT = /^[a-z][a-z0-9-]*$/;
 const INFRASTRUCTURE_LIKE = /^(?:v\d+|ct\d+|node\d+|host\d+|stage\d+)$/;
 const FORBIDDEN_SEGMENTS = new Set([
@@ -66,7 +68,28 @@ export function parseToolId(id) {
   };
 }
 
-export function toolFace({ id, effect, connector, summary } = {}) {
+function snapshotSchema(schema) {
+  const snapshot = Object.create(Object.getPrototypeOf(schema));
+  const pending = [[schema, snapshot]];
+  while (pending.length > 0) {
+    const [source, target] = pending.pop();
+    for (const [name, value] of Object.entries(source)) {
+      let copy = value;
+      if (Array.isArray(value)) {
+        copy = Object.freeze(Array.from({ length: value.length }, (_, index) => value[index]));
+      } else if (value !== null && typeof value === 'object') {
+        copy = Object.create(Object.getPrototypeOf(value));
+        pending.push([value, copy]);
+      }
+      Object.defineProperty(target, name, { value: copy, enumerable: true });
+    }
+    Object.freeze(target);
+  }
+  return snapshot;
+}
+
+export function toolFace(face = {}) {
+  const { id, effect, connector, summary } = face;
   const issues = [];
   try {
     parseToolId(id);
@@ -82,8 +105,20 @@ export function toolFace({ id, effect, connector, summary } = {}) {
   if (typeof summary !== 'string' || summary.length === 0) {
     issues.push('summary must be a non-empty contract of intent');
   }
+  const schemas = {};
+  for (const name of ['inputSchema', 'outputSchema']) {
+    if (!Object.hasOwn(face, name)) continue;
+    const schema = face[name];
+    const { ok, errors } = checkSchema(schema);
+    if (!ok) {
+      for (const { path, reason } of errors) issues.push(`${name}${path}: ${reason}`);
+      continue;
+    }
+    schemas[name] = schema;
+  }
   if (issues.length > 0) throw new FaceError(issues);
-  return Object.freeze({ id, effect, connector, summary });
+  for (const name of Object.keys(schemas)) schemas[name] = snapshotSchema(schemas[name]);
+  return Object.freeze({ id, effect, connector, summary, ...schemas });
 }
 
 export function toolPack(faces = []) {

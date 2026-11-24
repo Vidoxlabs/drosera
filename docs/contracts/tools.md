@@ -10,11 +10,13 @@ seed's contract disagree, seed wins.
 ## Shape
 
 ```
-face { id, effect, connector, summary }
+face { id, effect, connector, summary, inputSchema?, outputSchema? }
 id         seed's neutral tool-id grammar: domain . [resource . [sub .]] verb
 effect     one of: read | write | destructive | credential
 connector  non-empty string naming the binding that performs the tool
 summary    non-empty contract of intent, readable by a user
+inputSchema   optional schema for tool arguments
+outputSchema  optional schema for tool results
 ```
 
 ## Face rules
@@ -23,6 +25,12 @@ summary    non-empty contract of intent, readable by a user
 2. **The effect class is on the face.** One of `read`, `write`, `destructive`, `credential`. The class belongs to the definition, and the harness's run model owns what the class gates.
 3. **The connector is named, not carried.** A face records which binding performs it. The binding's vendor identity, transport, and credentials never appear in the face, never appear in the ID, and are not this repository's to store.
 4. **The summary is a contract of intent.** A user reads it, calls the tool, and matches what happened to what was promised. A summary that could not be falsified this way is a defective summary.
+5. **Optional schemas follow Seed's closed subset.** `toolFace` validates each supplied schema and reports the field and JSON Pointer on refusal. Valid schemas are copied and frozen with the face. `toolPack` applies the same checks when rebuilding a face.
+
+The offline mirror in `src/schema.mjs` follows Seed at
+`a6e0296c758f70344cdac243e3ff0ea4f52c0517` (seed#3, pending upstream merge).
+`test/schema-parity.test.mjs` checks the mirror's source digest and the shared
+schema and value cases. Validation at dispatch remains the harness's responsibility.
 
 ## Family conventions (observed, not invented)
 
@@ -49,4 +57,5 @@ A face is a definition. A registry entry — seed's runtime record with `realm`,
 
 ## Changes
 
+- `2.3.0` adds optional schema validation, frozen schema snapshots, and Seed parity checks (CAP-03, drosera#3).
 - `0.2.0` — `toolPack` checks every entry with the face rules. Before `0.2.0` a frozen object with a known effect class entered the pack unchecked, so a face with a malformed ID or an empty summary could be packed. The change refuses entries that never met this contract; every valid entry packs as before.

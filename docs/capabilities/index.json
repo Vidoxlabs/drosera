@@ -62,23 +62,27 @@
     {
       "id": "CAP-03",
       "role": "touches",
-      "status": "proposed",
-      "claim": "planned",
+      "status": "landed",
+      "claim": "implemented",
       "spec": "seed/docs/capabilities/CAP-03-typed-tool-input-output.md",
       "slices": [
         {
           "id": "CAP-03.2",
           "title": "Optional inputSchema and outputSchema on drosera tool faces with parity check",
           "milestone": "M2",
-          "status": "proposed"
+          "status": "landed"
         }
       ],
       "toolIds": [],
       "contracts": [
         "docs/contracts/tools.md"
       ],
-      "tests": [],
-      "prs": [],
+      "tests": [
+        "test/schema-parity.test.mjs"
+      ],
+      "prs": [
+        "drosera#3"
+      ],
       "commits": [],
       "adr": [],
       "decision": null,
