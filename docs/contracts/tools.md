@@ -55,7 +55,28 @@ toolPack(faces) → { face(id), inDomain(domain), has(id), ids(), size }
 
 A face is a definition. A registry entry — seed's runtime record with `realm`, `thirdPartyEgress`, `ownerGate`, `inputSchema` — is an admission. Drosera never writes registry entries and never grants gates; the harness builds its entries from faces when a run admits a tool. Nothing in this contract may be read as runtime admission.
 
+## Workspace and finish faces
+
+`workspaceToolPack` contains seven faces with closed argument schemas.
+
+| Tool | Effect | Arguments |
+| --- | --- | --- |
+| `workspace.dir.list` | read | Optional `path` |
+| `workspace.file.read` | read | `path` and optional positive integer `startLine` and `endLine` |
+| `workspace.text.search` | read | Literal `query` and optional `path` |
+| `workspace.file.write` | write | `path` and `content` |
+| `workspace.file.update` | write | `path`, `oldText`, and `newText` |
+| `workspace.shell.execute` | write | `command` and optional string array `args` |
+| `run.answer.create` | read | Final `text` |
+
+The read bounds are inclusive and start at one. For list and search, an omitted
+path refers to the workspace root. An update replaces one exact, unique match.
+The shell face describes an executable and its arguments without shell expansion.
+Approval and execution belong to Bloom. Result schemas depend on the result
+shapes specified by the execution contract.
+
 ## Changes
 
+- `2.4.0` adds the workspace and finish faces with closed argument schemas (CAP-04, drosera#4).
 - `2.3.0` adds optional schema validation, frozen schema snapshots, and Seed parity checks (CAP-03, drosera#3).
 - `0.2.0` — `toolPack` checks every entry with the face rules. Before `0.2.0` a frozen object with a known effect class entered the pack unchecked, so a face with a malformed ID or an empty summary could be packed. The change refuses entries that never met this contract; every valid entry packs as before.
