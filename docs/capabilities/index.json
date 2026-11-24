@@ -5,50 +5,59 @@
     {
       "id": "CAP-01",
       "role": "touches",
-      "status": "in-progress",
-      "claim": "planned",
+      "status": "landed",
+      "claim": "implemented",
       "spec": "docs/docs/capabilities/CAP-01-development-timeline-ledger.md",
       "slices": [
         {
           "id": "CAP-01.6",
           "title": "Drosera capability docs and run guard / scan specs",
           "milestone": "M0",
-          "status": "in-progress"
+          "status": "landed"
         }
       ],
       "toolIds": [],
       "contracts": [],
-      "tests": [],
-      "prs": [
-        "drosera#1"
+      "tests": [
+        "test/capabilities.test.mjs"
       ],
-      "commits": [],
+      "prs": [
+        "drosera#1",
+        "drosera#2"
+      ],
+      "commits": [
+        "a760ba065c5b2fd78cebbbbd0a6c15ecbf2d1072"
+      ],
       "adr": [],
       "decision": null,
-      "updated": "2026-11-23"
+      "updated": "2026-11-24"
     },
     {
       "id": "CAP-02",
       "role": "touches",
-      "status": "proposed",
-      "claim": "planned",
+      "status": "landed",
+      "claim": "implemented",
       "spec": "docs/docs/capabilities/CAP-02-docs-freshness-check.md",
       "slices": [
         {
           "id": "CAP-02.6",
           "title": "Self-test test/capabilities.test.mjs in drosera",
           "milestone": "M2",
-          "status": "proposed"
+          "status": "landed"
         }
       ],
       "toolIds": [],
       "contracts": [],
-      "tests": [],
-      "prs": [],
+      "tests": [
+        "test/capabilities.test.mjs"
+      ],
+      "prs": [
+        "drosera#2"
+      ],
       "commits": [],
       "adr": [],
       "decision": null,
-      "updated": "2026-11-23"
+      "updated": "2026-11-24"
     },
     {
       "id": "CAP-03",
@@ -59,7 +68,7 @@
       "slices": [
         {
           "id": "CAP-03.2",
-          "title": "Optional inputSchema and outputSchema on tool faces with parity check",
+          "title": "Optional inputSchema and outputSchema on drosera tool faces with parity check",
           "milestone": "M2",
           "status": "proposed"
         }
@@ -73,7 +82,7 @@
       "commits": [],
       "adr": [],
       "decision": null,
-      "updated": "2026-11-23"
+      "updated": "2026-11-24"
     },
     {
       "id": "CAP-04",
@@ -84,7 +93,7 @@
       "slices": [
         {
           "id": "CAP-04.1",
-          "title": "Workspace and finish tool faces pack and recipe",
+          "title": "Drosera workspace and finish tool faces pack and recipe",
           "milestone": "M2",
           "status": "proposed"
         }
@@ -99,7 +108,7 @@
       "commits": [],
       "adr": [],
       "decision": null,
-      "updated": "2026-11-23"
+      "updated": "2026-11-24"
     },
     {
       "id": "CAP-05",
@@ -137,7 +146,7 @@
       "slices": [
         {
           "id": "CAP-06.3",
-          "title": "Face metadata alignment for owner-gate and egress flags",
+          "title": "Drosera face metadata alignment for owner-gate and egress flags",
           "milestone": "M4",
           "status": "proposed"
         }
@@ -151,7 +160,7 @@
       "commits": [],
       "adr": [],
       "decision": null,
-      "updated": "2026-11-23"
+      "updated": "2026-11-24"
     },
     {
       "id": "CAP-09",
@@ -199,7 +208,7 @@
       "slices": [
         {
           "id": "CAP-15.1",
-          "title": "Research source search face with third-party egress metadata",
+          "title": "Drosera research source search face",
           "milestone": "M8",
           "status": "proposed"
         }
@@ -213,7 +222,7 @@
       "commits": [],
       "adr": [],
       "decision": null,
-      "updated": "2026-11-23"
+      "updated": "2026-11-24"
     },
     {
       "id": "CAP-18",
