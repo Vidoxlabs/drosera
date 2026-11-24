@@ -1,3 +1,10 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/drosera-banner-dark.svg">
+  <img src=".github/assets/drosera-banner.svg" alt="Drosera banner: sundew tendrils ending in small hooks, and the tagline Tools, skills, hooks, and cookbooks." width="1280">
+</picture>
+
+Tools, skills, hooks, and cookbooks
+
 # drosera
 
 Tooling for agents: tool faces, skills, hooks, cookbooks.
@@ -64,3 +71,5 @@ Tests use the Node built-in runner. Adding a rule means adding the test that hol
 ## License
 
 MIT
+
+The Vidoxlabs name and mark are trademarks of Vidoxlabs LLC. They are not covered by this repository's MIT license.
