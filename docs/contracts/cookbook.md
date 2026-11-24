@@ -38,6 +38,15 @@ checkRecipe(recipe, toolPack, skillPack) → { ok, errors[] }
 - Not a plan. Plans, validation rule packs, and verdicts are the admission loop's records; a recipe is documentation of repeatable work, composable with faces and skills but never gating assembly.
 - Not a substitute for testing the steps. Each face keeps its own summary, effect class, and behavior; a recipe's sequence being valid says nothing about whether any individual call succeeded — that is each call's business.
 
+## Workspace coding recipe
+
+`workspaceCodingRecipe` uses recipe ID `workspace-coding` and resolves all
+its tool references through `workspaceToolPack`. It describes inspection, an
+appropriate approved write or update, verification, and a finish face. The
+recipe declares tool references. Bloom decides whether it can execute each call.
+
 ## Changes
+
+- `2.4.0` adds the `workspace-coding` recipe for the workspace and finish pack (CAP-04, drosera#4).
 
 - `0.2.0` — `cookbook` checks every entry with the recipe rules. Before `0.2.0` any frozen object entered the cookbook unchecked, so a recipe with no steps, or a step of both kinds, could be held. The change refuses entries that never met this contract; every valid entry packs as before.

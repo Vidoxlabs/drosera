@@ -1,6 +1,6 @@
 {
   "name": "@vidoxlabs/drosera",
-  "version": "2.2.0",
+  "version": "2.4.0",
   "description": "Tooling for agents: tool faces, skills, hooks, cookbooks.",
   "type": "module",
   "main": "src/index.mjs",

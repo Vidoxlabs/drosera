@@ -62,23 +62,27 @@
     {
       "id": "CAP-03",
       "role": "touches",
-      "status": "proposed",
-      "claim": "planned",
+      "status": "landed",
+      "claim": "implemented",
       "spec": "seed/docs/capabilities/CAP-03-typed-tool-input-output.md",
       "slices": [
         {
           "id": "CAP-03.2",
           "title": "Optional inputSchema and outputSchema on drosera tool faces with parity check",
           "milestone": "M2",
-          "status": "proposed"
+          "status": "landed"
         }
       ],
       "toolIds": [],
       "contracts": [
         "docs/contracts/tools.md"
       ],
-      "tests": [],
-      "prs": [],
+      "tests": [
+        "test/schema-parity.test.mjs"
+      ],
+      "prs": [
+        "drosera#3"
+      ],
       "commits": [],
       "adr": [],
       "decision": null,
@@ -87,24 +91,36 @@
     {
       "id": "CAP-04",
       "role": "touches",
-      "status": "proposed",
-      "claim": "planned",
+      "status": "landed",
+      "claim": "implemented",
       "spec": "bloom/docs/capabilities/CAP-04-workspace-tools-coding-loop.md",
       "slices": [
         {
           "id": "CAP-04.1",
           "title": "Drosera workspace and finish tool faces pack and recipe",
           "milestone": "M2",
-          "status": "proposed"
+          "status": "landed"
         }
       ],
-      "toolIds": [],
+      "toolIds": [
+        "workspace.dir.list",
+        "workspace.file.read",
+        "workspace.text.search",
+        "workspace.file.write",
+        "workspace.file.update",
+        "workspace.shell.execute",
+        "run.answer.create"
+      ],
       "contracts": [
         "docs/contracts/tools.md",
         "docs/contracts/cookbook.md"
       ],
-      "tests": [],
-      "prs": [],
+      "tests": [
+        "test/workspace-coding.test.mjs"
+      ],
+      "prs": [
+        "drosera#4"
+      ],
       "commits": [],
       "adr": [],
       "decision": null,

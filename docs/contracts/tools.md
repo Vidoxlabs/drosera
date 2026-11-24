@@ -10,11 +10,13 @@ seed's contract disagree, seed wins.
 ## Shape
 
 ```
-face { id, effect, connector, summary }
+face { id, effect, connector, summary, inputSchema?, outputSchema? }
 id         seed's neutral tool-id grammar: domain . [resource . [sub .]] verb
 effect     one of: read | write | destructive | credential
 connector  non-empty string naming the binding that performs the tool
 summary    non-empty contract of intent, readable by a user
+inputSchema   optional schema for tool arguments
+outputSchema  optional schema for tool results
 ```
 
 ## Face rules
@@ -23,6 +25,12 @@ summary    non-empty contract of intent, readable by a user
 2. **The effect class is on the face.** One of `read`, `write`, `destructive`, `credential`. The class belongs to the definition, and the harness's run model owns what the class gates.
 3. **The connector is named, not carried.** A face records which binding performs it. The binding's vendor identity, transport, and credentials never appear in the face, never appear in the ID, and are not this repository's to store.
 4. **The summary is a contract of intent.** A user reads it, calls the tool, and matches what happened to what was promised. A summary that could not be falsified this way is a defective summary.
+5. **Optional schemas follow Seed's closed subset.** `toolFace` validates each supplied schema and reports the field and JSON Pointer on refusal. Valid schemas are copied and frozen with the face. `toolPack` applies the same checks when rebuilding a face.
+
+The offline mirror in `src/schema.mjs` follows Seed at
+`a6e0296c758f70344cdac243e3ff0ea4f52c0517` (seed#3, pending upstream merge).
+`test/schema-parity.test.mjs` checks the mirror's source digest and the shared
+schema and value cases. Validation at dispatch remains the harness's responsibility.
 
 ## Family conventions (observed, not invented)
 
@@ -47,6 +55,28 @@ toolPack(faces) → { face(id), inDomain(domain), has(id), ids(), size }
 
 A face is a definition. A registry entry — seed's runtime record with `realm`, `thirdPartyEgress`, `ownerGate`, `inputSchema` — is an admission. Drosera never writes registry entries and never grants gates; the harness builds its entries from faces when a run admits a tool. Nothing in this contract may be read as runtime admission.
 
+## Workspace and finish faces
+
+`workspaceToolPack` contains seven faces with closed argument schemas.
+
+| Tool | Effect | Arguments |
+| --- | --- | --- |
+| `workspace.dir.list` | read | Optional `path` |
+| `workspace.file.read` | read | `path` and optional positive integer `startLine` and `endLine` |
+| `workspace.text.search` | read | Literal `query` and optional `path` |
+| `workspace.file.write` | write | `path` and `content` |
+| `workspace.file.update` | write | `path`, `oldText`, and `newText` |
+| `workspace.shell.execute` | write | `command` and optional string array `args` |
+| `run.answer.create` | read | Final `text` |
+
+The read bounds are inclusive and start at one. For list and search, an omitted
+path refers to the workspace root. An update replaces one exact, unique match.
+The shell face describes an executable and its arguments without shell expansion.
+Approval and execution belong to Bloom. Result schemas depend on the result
+shapes specified by the execution contract.
+
 ## Changes
 
+- `2.4.0` adds the workspace and finish faces with closed argument schemas (CAP-04, drosera#4).
+- `2.3.0` adds optional schema validation, frozen schema snapshots, and Seed parity checks (CAP-03, drosera#3).
 - `0.2.0` — `toolPack` checks every entry with the face rules. Before `0.2.0` a frozen object with a known effect class entered the pack unchecked, so a face with a malformed ID or an empty summary could be packed. The change refuses entries that never met this contract; every valid entry packs as before.
