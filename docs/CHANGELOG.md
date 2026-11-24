@@ -7,6 +7,7 @@ Earlier version history (through `2.2.0`) lives in the `Changes` sections of `do
 ### Added
 
 - Capability timeline scaffold: `docs/capabilities/` (`README.md`, `index.json`, `CAP-09`, `CAP-19`), `docs/adr/README.md`, and `docs/CHANGELOG.md` (CAP-01, drosera#1).
+- Standalone capability ledger checks and scaffold squash evidence (CAP-02, drosera#2).
 
 ### Changed
 
