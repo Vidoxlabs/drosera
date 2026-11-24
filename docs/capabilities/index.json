@@ -1,0 +1,276 @@
+{
+  "version": 1,
+  "repo": "drosera",
+  "entries": [
+    {
+      "id": "CAP-01",
+      "role": "touches",
+      "status": "in-progress",
+      "claim": "planned",
+      "spec": "docs/docs/capabilities/CAP-01-development-timeline-ledger.md",
+      "slices": [
+        {
+          "id": "CAP-01.6",
+          "title": "Drosera capability docs and run guard / scan specs",
+          "milestone": "M0",
+          "status": "in-progress"
+        }
+      ],
+      "toolIds": [],
+      "contracts": [],
+      "tests": [],
+      "prs": [
+        "drosera#1"
+      ],
+      "commits": [],
+      "adr": [],
+      "decision": null,
+      "updated": "2026-11-23"
+    },
+    {
+      "id": "CAP-02",
+      "role": "touches",
+      "status": "proposed",
+      "claim": "planned",
+      "spec": "docs/docs/capabilities/CAP-02-docs-freshness-check.md",
+      "slices": [
+        {
+          "id": "CAP-02.6",
+          "title": "Self-test test/capabilities.test.mjs in drosera",
+          "milestone": "M2",
+          "status": "proposed"
+        }
+      ],
+      "toolIds": [],
+      "contracts": [],
+      "tests": [],
+      "prs": [],
+      "commits": [],
+      "adr": [],
+      "decision": null,
+      "updated": "2026-11-23"
+    },
+    {
+      "id": "CAP-03",
+      "role": "touches",
+      "status": "proposed",
+      "claim": "planned",
+      "spec": "seed/docs/capabilities/CAP-03-typed-tool-input-output.md",
+      "slices": [
+        {
+          "id": "CAP-03.2",
+          "title": "Optional inputSchema and outputSchema on tool faces with parity check",
+          "milestone": "M2",
+          "status": "proposed"
+        }
+      ],
+      "toolIds": [],
+      "contracts": [
+        "docs/contracts/tools.md"
+      ],
+      "tests": [],
+      "prs": [],
+      "commits": [],
+      "adr": [],
+      "decision": null,
+      "updated": "2026-11-23"
+    },
+    {
+      "id": "CAP-04",
+      "role": "touches",
+      "status": "proposed",
+      "claim": "planned",
+      "spec": "bloom/docs/capabilities/CAP-04-workspace-tools-coding-loop.md",
+      "slices": [
+        {
+          "id": "CAP-04.1",
+          "title": "Workspace and finish tool faces pack and recipe",
+          "milestone": "M2",
+          "status": "proposed"
+        }
+      ],
+      "toolIds": [],
+      "contracts": [
+        "docs/contracts/tools.md",
+        "docs/contracts/cookbook.md"
+      ],
+      "tests": [],
+      "prs": [],
+      "commits": [],
+      "adr": [],
+      "decision": null,
+      "updated": "2026-11-23"
+    },
+    {
+      "id": "CAP-05",
+      "role": "touches",
+      "status": "proposed",
+      "claim": "planned",
+      "spec": "capillary/docs/capabilities/CAP-05-codebase-context-packer.md",
+      "slices": [
+        {
+          "id": "CAP-05.4",
+          "title": "Packer tool faces, map-first exploration skill, and recipe",
+          "milestone": "M2",
+          "status": "proposed"
+        }
+      ],
+      "toolIds": [],
+      "contracts": [
+        "docs/contracts/tools.md",
+        "docs/contracts/skills.md",
+        "docs/contracts/cookbook.md"
+      ],
+      "tests": [],
+      "prs": [],
+      "commits": [],
+      "adr": [],
+      "decision": null,
+      "updated": "2026-11-23"
+    },
+    {
+      "id": "CAP-06",
+      "role": "touches",
+      "status": "proposed",
+      "claim": "planned",
+      "spec": "seed/docs/capabilities/CAP-06-tool-call-approval-decisions.md",
+      "slices": [
+        {
+          "id": "CAP-06.3",
+          "title": "Face metadata alignment for owner-gate and egress flags",
+          "milestone": "M4",
+          "status": "proposed"
+        }
+      ],
+      "toolIds": [],
+      "contracts": [
+        "docs/contracts/tools.md"
+      ],
+      "tests": [],
+      "prs": [],
+      "commits": [],
+      "adr": [],
+      "decision": null,
+      "updated": "2026-11-23"
+    },
+    {
+      "id": "CAP-09",
+      "role": "lead",
+      "status": "proposed",
+      "claim": "planned",
+      "spec": "docs/capabilities/CAP-09-run-guards-hook-chain.md",
+      "slices": [
+        {
+          "id": "CAP-09.1",
+          "title": "Add before-model and after-model run events to hook contract and pack",
+          "milestone": "M3",
+          "status": "proposed"
+        },
+        {
+          "id": "CAP-09.2",
+          "title": "Clarification pause and guard refusal codes",
+          "milestone": "M3",
+          "status": "proposed"
+        },
+        {
+          "id": "CAP-09.3",
+          "title": "Ordered guard hook chain in run loop",
+          "milestone": "M3",
+          "status": "proposed"
+        }
+      ],
+      "toolIds": [],
+      "contracts": [
+        "docs/contracts/hooks.md"
+      ],
+      "tests": [],
+      "prs": [],
+      "commits": [],
+      "adr": [],
+      "decision": null,
+      "updated": "2026-11-23"
+    },
+    {
+      "id": "CAP-15",
+      "role": "touches",
+      "status": "proposed",
+      "claim": "planned",
+      "spec": "bloom/docs/capabilities/CAP-15-research-flow.md",
+      "slices": [
+        {
+          "id": "CAP-15.1",
+          "title": "Research source search face with third-party egress metadata",
+          "milestone": "M8",
+          "status": "proposed"
+        }
+      ],
+      "toolIds": [],
+      "contracts": [
+        "docs/contracts/tools.md"
+      ],
+      "tests": [],
+      "prs": [],
+      "commits": [],
+      "adr": [],
+      "decision": null,
+      "updated": "2026-11-23"
+    },
+    {
+      "id": "CAP-18",
+      "role": "touches",
+      "status": "proposed",
+      "claim": "planned",
+      "spec": "capillary/docs/capabilities/CAP-18-symbol-outline-packed-context.md",
+      "slices": [
+        {
+          "id": "CAP-18.2",
+          "title": "Outline reader tool face definition and schema",
+          "milestone": "M8",
+          "status": "proposed"
+        }
+      ],
+      "toolIds": [],
+      "contracts": [
+        "docs/contracts/tools.md"
+      ],
+      "tests": [],
+      "prs": [],
+      "commits": [],
+      "adr": [],
+      "decision": null,
+      "updated": "2026-11-23"
+    },
+    {
+      "id": "CAP-19",
+      "role": "lead",
+      "status": "proposed",
+      "claim": "planned",
+      "spec": "docs/capabilities/CAP-19-skill-safety-scan.md",
+      "slices": [
+        {
+          "id": "CAP-19.1",
+          "title": "Deterministic skill safety scanner and skill-promoted hook integration",
+          "milestone": "M9",
+          "status": "proposed"
+        },
+        {
+          "id": "CAP-19.2",
+          "title": "Skill safety scan behavior probes",
+          "milestone": "M9",
+          "status": "proposed"
+        }
+      ],
+      "toolIds": [],
+      "contracts": [
+        "docs/contracts/skills.md",
+        "docs/contracts/hooks.md"
+      ],
+      "tests": [],
+      "prs": [],
+      "commits": [],
+      "adr": [],
+      "decision": null,
+      "updated": "2026-11-23"
+    }
+  ]
+}
