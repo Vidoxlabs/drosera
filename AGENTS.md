@@ -1,3 +1,5 @@
+<!-- Managed file. Propose changes by pull request; they are carried into the shared templates. hash: ea95635b111eee41 -->
+
 # Drosera workspace
 
 ## What this is
