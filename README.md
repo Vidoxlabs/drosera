@@ -9,7 +9,7 @@ Tools, skills, hooks, and cookbooks
 
 Tooling for agents: tool faces, skills, hooks, cookbooks.
 
-Drosera is the tooling member of the bloom agent family. It defines the four packaging forms an agent works with beyond its own context. Tool faces are neutral definitions of what can be called, following seed's tool-id grammar. Skills are packaged instructions that grow context without granting authority. Hooks are deterministic checks, fail closed, bound to run events. Cookbooks are recipes that compose published faces and skills, resolved at validation.
+Drosera is the tooling system of Vivarium, the personal agent platform. It defines the four packaging forms an agent works with beyond its own context. Tool faces are neutral definitions of what can be called, following seed's tool-id grammar. Skills are packaged instructions that grow context without granting authority. Hooks are deterministic checks, fail closed, bound to run events. Cookbooks are recipes that compose published faces and skills, resolved at validation.
 
 ## The name
 
@@ -39,7 +39,7 @@ Requires Node >= 22.13. Zero runtime dependencies.
 
 ## The family
 
-The family follows one design law: ordinary botanical words for public products, mirroring five flower-named personas ([the law](https://github.com/Vidoxlabs/capillary/blob/main/docs/family.md)).
+Vivarium is the product. Its systems follow one naming law: ordinary botanical words that say what each system does ([the law](https://github.com/Vidoxlabs/capillary/blob/main/docs/family.md)).
 
 | Name | Province |
 | :--- | :--- |
@@ -49,7 +49,8 @@ The family follows one design law: ordinary botanical words for public products,
 | [`aestivation`](https://github.com/Vidoxlabs/aestivation) | Plans, verdicts, and the gate before assembly |
 | `drosera` (this repo) | Tool faces, skills, hooks, cookbooks |
 | [`trellis`](https://github.com/Vidoxlabs/trellis) | Multi-point testing with dated evidence |
-| [`bloom`](https://github.com/Vidoxlabs/bloom) | The team workspace harness |
+| [`bloom`](https://github.com/Vidoxlabs/bloom) | Vivarium's user interface: the app a person opens |
+| [`vivarium`](https://github.com/Vidoxlabs/vivarium) | The product's umbrella: pins the seven systems at exact commits |
 | [`docs`](https://github.com/Vidoxlabs/docs) | Family documentation, synced from every public repository |
 
 ## Documentation
